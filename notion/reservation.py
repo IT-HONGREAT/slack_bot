@@ -1,7 +1,4 @@
-from pprint import pprint
-
 import requests, json
-from env import get_env
 
 
 def get_reservation(databaseId, headers):

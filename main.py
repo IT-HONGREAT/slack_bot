@@ -1,8 +1,5 @@
-from pprint import pprint
-
-import requests, json
 from env import get_env
-from reservation import get_reservation, create_reservation
+from notion.reservation import get_reservation, create_reservation
 
 token = get_env().get("token")
 databaseId = get_env().get("databaseId")
