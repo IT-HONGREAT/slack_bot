@@ -26,7 +26,7 @@ def get_reservation(databaseId, headers):
             print("이용시간", "=>", end)
         print("용도", "=>", tag)
 
-    return response.status_code
+    return {"status_code": response.status_code}
 
 
 def create_reservation(
@@ -68,4 +68,4 @@ def create_reservation(
 
     data = json.dumps(newPageData)
     response = requests.post(createdUrl, headers=headers, data=data)
-    return response.status_code
+    return {"status_code": response.status_code}
