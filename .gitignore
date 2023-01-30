@@ -1,5 +1,6 @@
 # cache
 .idea
+__pycache__
 
 # check
 db.json
