@@ -1,5 +1,23 @@
 import requests, json
 
+from envs import get_env
+
+
+class Notion:
+    def __init__(self, notion_db_name):
+        self.notion_db_name = get_env().get(f"{notion_db_name}")
+        self.notion_token = get_env().get("notion_token")
+        self.headers = {
+            "Authorization": "Bearer " + self.notion_token,
+            "accept": "application/json",
+            "Notion-Version": "2022-06-28",
+            "content-type": "application/json",
+        }
+
+    def request_url(self):
+
+        return
+
 
 def get_reservation(databaseId, headers):
     readUrl = f"https://api.notion.com/v1/databases/{databaseId}/query"
