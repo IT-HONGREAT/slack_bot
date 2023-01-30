@@ -1,10 +1,10 @@
-from env import get_env
+from envs import get_env
 from notion.reservation import get_reservation, create_reservation
 
-token = get_env().get("token")
+notion_token = get_env().get("notion_token")
 databaseId = get_env().get("databaseId")
 headers = {
-    "Authorization": "Bearer " + token,
+    "Authorization": "Bearer " + notion_token,
     "accept": "application/json",
     "Notion-Version": "2022-06-28",
     "content-type": "application/json",
