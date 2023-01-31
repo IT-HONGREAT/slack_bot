@@ -8,3 +8,4 @@ db.json
 
 #env
 envs.py
+.env
