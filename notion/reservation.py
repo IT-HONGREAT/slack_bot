@@ -13,10 +13,10 @@ class Notion(PlatForm):
         super().__init__()
 
         # self.db_name = get_env().get(f"{notion_db_name}")
-        # self.notion_token = get_env().get("notion_token")
+        # self.Notion = get_env().get("Notion")
 
         self.headers = {
-            "Authorization": "Bearer " + self.notion_token,
+            "Authorization": "Bearer " + self.Notion,
             "accept": "application/json",
             "Notion-Version": "2022-06-28",
             "content-type": "application/json",
