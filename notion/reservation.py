@@ -16,9 +16,15 @@ class Notion(PlatFormSetting):
             "content-type": "application/json",
         }
 
-    def get_db_id(self, db_name):
-        db_id = ""
-        return db_id
+    # def temp_get_db_id(self, db_name):
+    #     self.db_name = db_name
+    #
+    #     print("이름 확인하기!!!", self.db_name)
+    #
+    #     # print("new!?!?!?", self.db)
+    #
+    #     db_id = ""
+    #     return db_id
 
     def _get_url(self, type: Optional[str] = "read", db_id=None):
         """
@@ -34,16 +40,14 @@ class Notion(PlatFormSetting):
 
         return url
 
-    # test = Notion()
-    # print("testsett", test.token)
-    #
-
-    def get_reservation(self, databaseId, headers):
+    def get_reservation(self, database_name=None):  # TODO db종류(이름)로 변경
         # read_url = f"https://api.notion.com/v1/databases/{databaseId}/query"
-        read_url = self._get_url(type="read", db_id=databaseId)
+        db_id = self.temp_get_db_id(database_name)  # TODO 여기서부터 확인가능~~!
+
+        read_url = self._get_url(type="read", db_id=db_id)
 
         # TODO headers 도 합치기
-        response = requests.post(read_url, headers=headers)
+        response = requests.post(read_url, headers=self.headers)
         data = response.json()
         data_result = data.get("results")
         for i in data_result:
