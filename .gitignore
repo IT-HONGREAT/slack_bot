@@ -4,7 +4,7 @@ __pycache__
 
 # check
 db.json
-
+temp_models.py
 
 #env
 envs.py

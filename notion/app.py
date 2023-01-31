@@ -1,6 +1,7 @@
 import json
 from typing import Optional
 
+import aiohttp
 import requests
 
 from settings import PlatFormSetting
@@ -15,6 +16,11 @@ class Notion(PlatFormSetting):
             "Notion-Version": "2022-06-28",
             "content-type": "application/json",
         }
+
+    async def fetch_data(self, url: str, headers: str):
+        async with aiohttp.ClientSession() as session:
+            async with session.get(url, headers=headers) as response:
+                return await response.json()
 
     def _get_url(self, type: Optional[str] = "read_db", database_id=None):
         """
@@ -33,8 +39,17 @@ class Notion(PlatFormSetting):
     def get_reservation(self, database_name=None):
 
         read_url = self._get_url(type="read_db", database_id=self.get_database_id(database_name))
-        response = requests.post(read_url, headers=self.headers)
-        data = response.json()
+        """
+        동기 요청
+        """
+        # response = requests.post(read_url, headers=self.headers)
+        # data = response.json()
+
+        """
+        비동기 요청
+        """
+
+        data = self.fetch_data(url=read_url, headers=self.headers)
 
         data_result = data.get("results")
         for i in data_result:
