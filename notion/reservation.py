@@ -1,3 +1,5 @@
+from typing import Optional
+
 import requests, json
 
 from envs import get_env
@@ -7,9 +9,6 @@ from settings import PlatFormSetting
 class Notion(PlatFormSetting):
     def __init__(self):
         super().__init__()
-        # print("???!?!?!", self.token)
-        # self.db_name = get_env().get(f"{notion_db_name}")
-        # self.Notion = get_env().get("Notion")
         self.headers = {
             "Authorization": "Bearer " + self.token,
             "accept": "application/json",
@@ -17,41 +16,56 @@ class Notion(PlatFormSetting):
             "content-type": "application/json",
         }
 
-    def request_url(self):
+    def get_db_id(self, db_name):
+        db_id = ""
+        return db_id
 
-        return
+    def _get_url(self, type: Optional[str] = "read", db_id=None):
+        """
+        :param type: read/create ex) "read"
+        :param db_id:
+        :return: url ex)https://~~~
+        """
+        if type == "read":
+            url = f"https://api.notion.com/v1/databases/{db_id}/query"
 
+        if type == "create":
+            url = "https://api.notion.com/v1/pages"
 
-test = Notion()
-print("testsett", test.token)
+        return url
 
+    # test = Notion()
+    # print("testsett", test.token)
+    #
 
-def get_reservation(databaseId, headers):
-    readUrl = f"https://api.notion.com/v1/databases/{databaseId}/query"
+    def get_reservation(self, databaseId, headers):
+        # read_url = f"https://api.notion.com/v1/databases/{databaseId}/query"
+        read_url = self._get_url(type="read", db_id=databaseId)
 
-    response = requests.post(readUrl, headers=headers)
-    data = response.json()
-    data_result = data.get("results")
-    for i in data_result:
-        one_property = i.get("properties")
+        # TODO headers 도 합치기
+        response = requests.post(read_url, headers=headers)
+        data = response.json()
+        data_result = data.get("results")
+        for i in data_result:
+            one_property = i.get("properties")
 
-        room = one_property["방"]["select"]["name"]
-        created_by = one_property["생성자"]["created_by"]["name"]
-        title = one_property["제목"]["title"][0].get("plain_text")
-        if one_property["이용시간"].get("date"):
-            start = one_property["이용시간"].get("date").get("start")
-            end = one_property["이용시간"].get("date").get("end")
-        tag = one_property["용도"]["select"]["name"]
+            room = one_property["방"]["select"]["name"]
+            created_by = one_property["생성자"]["created_by"]["name"]
+            title = one_property["제목"]["title"][0].get("plain_text")
+            if one_property["이용시간"].get("date"):
+                start = one_property["이용시간"].get("date").get("start")
+                end = one_property["이용시간"].get("date").get("end")
+            tag = one_property["용도"]["select"]["name"]
 
-        print("방", "=>", room)
-        print("생성자", "=>", created_by)
-        print("제목", "=>", title)
-        if one_property["이용시간"].get("date"):
-            print("이용시간", "=>", start)
-            print("이용시간", "=>", end)
-        print("용도", "=>", tag)
+            print("방", "=>", room)
+            print("생성자", "=>", created_by)
+            print("제목", "=>", title)
+            if one_property["이용시간"].get("date"):
+                print("이용시간", "=>", start)
+                print("이용시간", "=>", end)
+            print("용도", "=>", tag)
 
-    return {"status_code": response.status_code}
+        return {"status_code": response.status_code}
 
 
 def create_reservation(
