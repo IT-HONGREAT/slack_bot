@@ -1,5 +1,7 @@
-import dotenv
 from pathlib import Path
+from typing import Optional
+
+import dotenv
 
 BASE_DIR = Path(__file__).resolve().parent
 
@@ -9,33 +11,19 @@ class PlatFormSetting:
         self,
     ):
         self.token = self._get_secret()
-        self.db_name = None
-        # self.db = self._ttt_get_db(db_name=self.db_name)
 
-        # self.temp = dotenv.get_key(
-        #     dotenv_path=f"{BASE_DIR}/.env",
-        #     key_to_get=f"{self._get_secret()}",
-        # )
-
-        # self.db = dotenv.get_key(
-        #     dotenv_path=f"{BASE_DIR}/.env",
-        #     key_to_get=f"{self._get_secret(self.db_name)}",
-        # )
-
-    # TODO db 이름 받고, 아래 함수에서 뽑을 수 있는 구조로 만들기
     @classmethod
-    def _get_secret(cls, db_name=None):
+    def _get_secret(cls, database_name: Optional[str] = None):
 
-        nnnnn = cls.__name__
-        if db_name:
-            nnnnn += f"_{db_name}"
-        check = dotenv.get_key(
+        class_name = cls.__name__
+        if database_name:
+            class_name += f"_{database_name}"
+        secret_key = dotenv.get_key(
             dotenv_path=f"{BASE_DIR}/.env",
-            key_to_get=f"{nnnnn}",
+            key_to_get=f"{class_name}",
         )
-        return check
+        return secret_key
 
-    def temp_get_db_id(self, db_name):
-        db_id = self._get_secret(db_name=db_name)
-        print("dpdpdpdp", db_id)
+    def get_database_id(self, database_name):
+        db_id = self._get_secret(database_name=database_name)
         return db_id

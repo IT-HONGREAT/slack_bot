@@ -1,8 +1,8 @@
+import json
 from typing import Optional
 
-import requests, json
+import requests
 
-from envs import get_env
 from settings import PlatFormSetting
 
 
@@ -16,35 +16,24 @@ class Notion(PlatFormSetting):
             "content-type": "application/json",
         }
 
-    # def temp_get_db_id(self, db_name):
-    #     self.db_name = db_name
-    #
-    #     print("이름 확인하기!!!", self.db_name)
-    #
-    #     # print("new!?!?!?", self.db)
-    #
-    #     db_id = ""
-    #     return db_id
-
-    def _get_url(self, type: Optional[str] = "read", db_id=None):
+    def _get_url(self, type: Optional[str] = "read", database_id=None):
         """
         :param type: read/create ex) "read"
-        :param db_id:
+        :param database_id:
         :return: url ex)https://~~~
         """
         if type == "read":
-            url = f"https://api.notion.com/v1/databases/{db_id}/query"
+            url = f"https://api.notion.com/v1/databases/{database_id}/query"
 
         if type == "create":
             url = "https://api.notion.com/v1/pages"
 
         return url
 
-    def get_reservation(self, database_name=None):  # TODO db종류(이름)로 변경
+    def get_reservation(self, database_name=None):
         # read_url = f"https://api.notion.com/v1/databases/{databaseId}/query"
-        db_id = self.temp_get_db_id(database_name)  # TODO 여기서부터 확인가능~~!
-
-        read_url = self._get_url(type="read", db_id=db_id)
+        database_id = self.get_database_id(database_name)
+        read_url = self._get_url(type="read", database_id=database_id)
 
         # TODO headers 도 합치기
         response = requests.post(read_url, headers=self.headers)
