@@ -42,14 +42,14 @@ class Notion(PlatFormSetting):
         """
         동기 요청
         """
-        # response = requests.post(read_url, headers=self.headers)
-        # data = response.json()
+        response = requests.post(read_url, headers=self.headers)
+        data = response.json()
 
         """
         비동기 요청
         """
 
-        data = self.fetch_data(url=read_url, headers=self.headers)
+        # data = self.fetch_data(url=read_url, headers=self.headers)
 
         data_result = data.get("results")
         for i in data_result:

@@ -8,7 +8,7 @@ notion = Notion()
 
 @app.get("/reservation")
 async def read_reservation():
-    response = await notion.get_reservation(database_name="reservation")  # TODO 데이터 구조에 따른 로직을 여기서?
+    response = notion.get_reservation(database_name="reservation")  # TODO 데이터 구조에 따른 로직을 여기서?
     return response
 
 
