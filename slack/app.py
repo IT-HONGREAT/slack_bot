@@ -16,33 +16,36 @@ class Slack(PlatFormSetting):
 
 
 test = Slack()
+
+block_form = [
+    {
+        "type": "section",
+        "text": {
+            "type": "mrkdwn",
+            "text": "*TokBot*\n 사용하고싶은 기능을 눌러주세요~~.",
+        },
+    },
+    {"type": "context", "elements": [{"type": "mrkdwn", "text": "<http://www.naver.com|naver메인>"}]},
+    {
+        "type": "actions",
+        "elements": [
+            {"type": "button", "text": {"type": "plain_text", "text": "Approve", "emoji": True}},
+            {"type": "button", "text": {"type": "plain_text", "text": "Reject", "emoji": True}},
+            {"type": "button", "text": {"type": "plain_text", "text": ":robot_face:", "emoji": True}},
+            {
+                "type": "overflow",
+                "options": [
+                    {"text": {"type": "plain_text", "text": "Follow", "emoji": True}, "value": "value-0"},
+                    {"text": {"type": "plain_text", "text": "Activity feed", "emoji": True}, "value": "value-2"},
+                    {"text": {"type": "plain_text", "text": "Details", "emoji": True}, "value": "value-1"},
+                ],
+            },
+        ],
+    },
+]
+
 test.main_bot(
     channel="#tokbottest",
-    blocks=[
-        {
-            "type": "section",
-            "text": {
-                "type": "mrkdwn",
-                "text": "*Approval Request*\nYour approval is requested to make an offer to <http://example.com|Florence Tran>.",
-            },
-        },
-        {"type": "context", "elements": [{"type": "mrkdwn", "text": "<http://example.com|View applicant>"}]},
-        {
-            "type": "actions",
-            "elements": [
-                {"type": "button", "text": {"type": "plain_text", "text": "Approve", "emoji": True}},
-                {"type": "button", "text": {"type": "plain_text", "text": "Reject", "emoji": True}},
-                {"type": "button", "text": {"type": "plain_text", "text": ":robot_face:", "emoji": True}},
-                {
-                    "type": "overflow",
-                    "options": [
-                        {"text": {"type": "plain_text", "text": "Follow", "emoji": True}, "value": "value-0"},
-                        {"text": {"type": "plain_text", "text": "Activity feed", "emoji": True}, "value": "value-1"},
-                        {"text": {"type": "plain_text", "text": "Details", "emoji": True}, "value": "value-3"},
-                    ],
-                },
-            ],
-        },
-    ],
+    blocks=block_form,
 )
 # test.reactions_add()
