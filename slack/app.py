@@ -8,16 +8,15 @@ class Slack(PlatFormSetting):
         super().__init__()
         self.client = slack_sdk.WebClient(token=self.token)
 
-    def post_message(self, channel, blocks):
-        # self.client.chat_postMessage(channel="#tokbottest", text="hellow world!!")
+    def main_bot(self, channel, blocks):
         self.client.chat_postMessage(channel=channel, blocks=blocks)
 
-    def reactions_add(self):
-        self.client.reactions_add(channel="#tokbottest", name="thumbsup", timestamp="1234567890.123456")
+    def post_message(self, channel, text):
+        self.client.chat_postMessage(channel="#tokbottest", text="hellow world!!")
 
 
 test = Slack()
-test.post_message(
+test.main_bot(
     channel="#tokbottest",
     blocks=[
         {
