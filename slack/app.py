@@ -20,25 +20,6 @@ test = Slack()
 test.post_message(
     channel="#tokbottest",
     blocks=[
-        # {
-        #     "type": "section",
-        #     "text": {"type": "mrkdwn", "text": "Danny Torrence left the following review for your property:"},
-        # },
-        # {
-        #     "type": "section",
-        #     "text": {
-        #         "type": "mrkdwn",
-        #         "text": "<https://example.com|Overlook Hotel> \n :star: \n Doors had too many axe holes, guest in room "
-        #         + "237 was far too rowdy, whole place felt stuck in the 1920s.",
-        #     },
-        #     "accessory": {
-        #         "type": "image",
-        #         "image_url": "https://images.pexels.com/photos/750319/pexels-photo-750319.jpeg",
-        #         "alt_text": "Haunted hotel image",
-        #     },
-        # },
-        # {"type": "section", "fields": [{"type": "mrkdwn", "text": "*Average Rating*\n1.0"}]},
-        # {"type": "icon_emoji"},
         {
             "type": "section",
             "text": {
