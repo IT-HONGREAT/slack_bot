@@ -39,17 +39,8 @@ class Notion(PlatFormSetting):
     def get_reservation(self, database_name=None):
 
         read_url = self._get_url(type="read_db", database_id=self.get_database_id(database_name))
-        """
-        동기 요청
-        """
         response = requests.post(read_url, headers=self.headers)
         data = response.json()
-
-        """
-        비동기 요청
-        """
-
-        # data = self.fetch_data(url=read_url, headers=self.headers)
 
         data_result = data.get("results")
         for i in data_result:
@@ -87,14 +78,6 @@ class Notion(PlatFormSetting):
                         "name": room,
                     },
                 },
-                # "생성자": {
-                #     "created_by": {
-                #         "name": "홍인영",
-                #         "object": "user",
-                #         "person": {"email": "iyiy95@naver.com"},
-                #     },
-                #     "type": "created_by",
-                # },
                 "제목": {"title": [{"text": {"content": title}}]},
                 "이용시간": {"date": {"start": start, "end": end}},
                 "용도": {

@@ -34,16 +34,7 @@ test.post_message(
                 {"type": "button", "text": {"type": "plain_text", "text": "Approve", "emoji": True}},
                 {"type": "button", "text": {"type": "plain_text", "text": "Reject", "emoji": True}},
                 {"type": "button", "text": {"type": "plain_text", "text": ":robot_face:", "emoji": True}},
-                {
-                    "type": "overflow",
-                    "options": [
-                        {"text": {"type": "plain_text", "text": "Follow", "emoji": True}, "value": "value-0"},
-                        {"text": {"type": "plain_text", "text": "Activity feed", "emoji": True}, "value": "value-1"},
-                        {"text": {"type": "plain_text", "text": "Details", "emoji": True}, "value": "value-3"},
-                    ],
-                },
             ],
         },
     ],
 )
-# test.reactions_add()
