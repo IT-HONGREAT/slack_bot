@@ -43,6 +43,9 @@ class Notion(PlatFormSetting):
         data = response.json()
 
         data_result = data.get("results")
+
+        print(data_result)
+
         for i in data_result:
             one_property = i.get("properties")
 
