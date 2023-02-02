@@ -16,6 +16,9 @@ class Slack(PlatFormSetting):
         self.client.reactions_add(channel="#tokbottest", name="thumbsup", timestamp="1234567890.123456")
 
 
+# TODO result => app = App(token=??)
+
+
 test = Slack()
 test.post_message(
     channel="#tokbottest",
