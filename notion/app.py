@@ -1,4 +1,5 @@
 import json
+from asyncio import sleep
 from typing import Optional
 
 import aiohttp
@@ -36,15 +37,22 @@ class Notion(PlatFormSetting):
 
         return temp_mapping.get(type)
 
-    def get_reservation(self, database_name=None):
+    async def get_reservation(self, database_name=None):
 
         read_url = self._get_url(type="read_db", database_id=self.get_database_id(database_name))
-        response = requests.post(read_url, headers=self.headers)
-        data = response.json()
 
-        data_result = data.get("results")
+        """동기"""
+        # response = requests.post(read_url, headers=self.headers)
+        # data = response.json()
+        # data_result = data.get("results")
 
-        print(data_result)
+        """비동기"""
+        data = self.fetch_data(read_url, self.headers)
+        print("data!!!!!!!!!!!!!!!!!!!!!!!!!", data)
+
+        sleep(2)
+        print("test!!")
+        data_result = data["results"]
 
         for i in data_result:
             one_property = i.get("properties")
@@ -66,7 +74,7 @@ class Notion(PlatFormSetting):
                 print("이용시간", "=>", end)
             print("용도", "=>", tag)
 
-        return {"status_code": response.status_code}
+        return {"status_code": data.status_code}
 
     def create_reservation(self, database_name=None, room=None, title=None, purpose=None, start=None, end=None):
 
