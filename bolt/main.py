@@ -1,9 +1,9 @@
 from slack_bolt import App
+from slack_bolt.adapter.socket_mode import SocketModeHandler
 
 from bolt.app import slack_setting
-from notion.app import Notion
 
-notion = Notion()
+# notion = Notion()
 app = App(token=slack_setting.slack_bot_token)
 
 
@@ -52,3 +52,6 @@ def message_bot(message, say):
             },
         ],
     )
+
+
+Handler = SocketModeHandler(app, slack_setting.slack_app_token)
