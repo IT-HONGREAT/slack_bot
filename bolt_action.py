@@ -1,8 +1,8 @@
 from slack_bolt.adapter.socket_mode import SocketModeHandler
 
 from bolt_main import app
-from notion.app import Notion
-from slack_mod.app import slack_setting
+from notion_api.app import Notion
+from slack_api.app import slack_setting
 
 
 @app.message("hello")
@@ -205,21 +205,15 @@ notion = Notion()
 @app.action("create_reservation")
 def action_button_click(body, ack, say):
     ack()
-    response = notion.create_reservation(
+
+    notion.create_reservation(
         database_name="reservation",
-        room="지니",
+        room="어스",
         title="팀 회의 등록",
         purpose="내부회의",
         start="2023-02-01T01:00:00",
         end="2023-02-02T16:00:00",
     )
-
-    say(f"<@{body['user']['id']}> {response} 테이블링 성공")
-
-
-@app.action("create_reservation")
-def action_button_click(body, ack, say):
-    ack()
     say(
         **temp,
     )

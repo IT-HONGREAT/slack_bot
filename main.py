@@ -1,6 +1,14 @@
 from fastapi import FastAPI, Depends
 
-from notion.app import Notion
+from notion_api.app import Notion
+
+# TODO REMOVE
+# TODO REMOVE
+# TODO REMOVE
+# TODO REMOVE
+# TODO REMOVE
+# TODO REMOVE
+
 
 app = FastAPI()
 notion = Notion()

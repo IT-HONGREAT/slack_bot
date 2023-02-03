@@ -1,5 +1,4 @@
 import json
-from asyncio import sleep
 from typing import Optional
 
 import aiohttp
@@ -49,10 +48,7 @@ class Notion(PlatFormSetting):
 
         """비동기"""
         data = self.fetch_data(read_url, self.headers)
-        print("data!!!!!!!!!!!!!!!!!!!!!!!!!", data)
 
-        sleep(2)
-        print("test!!")
         data_result = data["results"]
 
         for i in data_result:

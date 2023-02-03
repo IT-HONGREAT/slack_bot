@@ -1,7 +1,7 @@
 from slack_bolt import App
 
-from notion.app import Notion
-from slack_mod.app import slack_setting
+from notion_api.app import Notion
+from slack_api.app import slack_setting
 
 notion = Notion()
 app = App(token=slack_setting.slack_bot_token)
