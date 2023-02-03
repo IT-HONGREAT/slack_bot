@@ -1,6 +1,6 @@
 # Slack Bot
 
-[**Enviorment**]
+[**Environment**]
 ~~~
 python3.8+
 ...
