@@ -3,7 +3,6 @@ from slack_bolt.adapter.socket_mode import SocketModeHandler
 
 from bolt.app import slack_setting
 
-# notion = Notion()
 app = App(token=slack_setting.slack_bot_token)
 
 
@@ -42,10 +41,10 @@ def message_bot(message, say):
                 "type": "section",
                 "text": {
                     "type": "mrkdwn",
-                    "text": "*똑봇 테스트*\n 아아 테스트 중입니다. <http://naver.com|네이버 메인!>.",
+                    "text": "*똑봇 테스트*\n 아아 테스트 중입니다. <http://naver.com|main link>.",
                 },
             },
-            {"type": "context", "elements": [{"type": "mrkdwn", "text": "<http://kakao.com|ㅋㅋㅋㅋ>"}]},
+            {"type": "context", "elements": [{"type": "mrkdwn", "text": "<http://kakao.com|other link>"}]},
             {
                 "type": "actions",
                 "elements": action_list,
