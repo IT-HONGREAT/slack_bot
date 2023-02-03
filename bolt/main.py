@@ -1,12 +1,14 @@
 from slack_bolt import App
 
-from notion.app import Notion
 from bolt.app import slack_setting
+from notion.app import Notion
 
 notion = Notion()
 app = App(token=slack_setting.slack_bot_token)
 
 
+# TODO : Make settings class or functions.
+# If there is a better way, please suggest to in-yeong.
 action_settings = {
     "get_reservation": ":one: 테이블링 예약조회",
     "create_reservation": ":two: 테이블 예약생성",
@@ -16,15 +18,24 @@ action_settings = {
 action_list = [
     {
         "type": "button",
-        "text": {"type": "plain_text", "text": value, "emoji": True},
-        "action_id": key,
+        "text": {"type": "plain_text", "text": description, "emoji": True},
+        "action_id": some_action,
     }
-    for key, value in action_settings.items()
+    for some_action, description in action_settings.items()
 ]
 
 
 @app.message("bot")
 def message_bot(message, say):
+    """
+    Main Bot
+
+    1. Add your action in "action_settings"
+        key : value
+        ex) <your-func-name> :  description
+
+    2. Create your action function in "action.py"
+    """
     say(
         blocks=[
             {

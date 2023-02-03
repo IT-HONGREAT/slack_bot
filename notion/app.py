@@ -7,8 +7,8 @@ import requests
 from settings import PlatFormSetting
 
 
-# TODO dir 이름 변경
 class Notion(PlatFormSetting):
+    # Add some notion settings here.
     def __init__(self):
         super().__init__()
         self.headers = {

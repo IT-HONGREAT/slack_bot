@@ -1,8 +1,8 @@
 from slack_bolt.adapter.socket_mode import SocketModeHandler
 
+from bolt.app import slack_setting
 from bolt_main import app
 from notion.app import Notion
-from bolt.app import slack_setting
 
 
 @app.message("hello")
@@ -219,4 +219,4 @@ def action_button_click(body, ack, say):
     )
 
 
-SocketModeHandler(app, slack_setting.slack_app_token).start()
+bolt_socket = SocketModeHandler(app, slack_setting.slack_app_token).start()

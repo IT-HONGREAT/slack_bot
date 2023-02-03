@@ -1,34 +1,15 @@
-from fastapi import FastAPI, Depends
+import subprocess
+from pathlib import Path
 
-from notion_api.app import Notion
+from bolt.actions import bolt_socket
 
-# TODO REMOVE
-# TODO REMOVE
-# TODO REMOVE
-# TODO REMOVE
-# TODO REMOVE
-# TODO REMOVE
+BASE_DIR = Path(__file__).resolve().parent
 
-
-app = FastAPI()
-notion = Notion()
+# TODO : improve run process [subprocess => ?]
+def main(filename):
+    subprocess.call(["python", filename])
 
 
-@app.get("/reservation")
-async def read_reservation():
-    response = notion.get_reservation(database_name="reservation")
-    return response
-
-
-# TODO setting
-@app.post("/reservation")
-async def create_reservation(notion_1=Depends(Notion)):
-    response = notion_1.create_reservation(
-        database_name="reservation",
-        room="지니",
-        title="팀 회의 등록",
-        purpose="내부회의",
-        start="2023-01-30T01:00:00",
-        end="2023-01-30T16:00:00",
-    )
-    return response
+if __name__ == "__main__":
+    bolt_socket()
+    main(f"{BASE_DIR}/bolt/main.py")
