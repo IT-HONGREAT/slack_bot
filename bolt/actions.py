@@ -1,8 +1,8 @@
 from slack_bolt.adapter.socket_mode import SocketModeHandler
 
 from bolt.app import slack_setting
-from bolt_main import app
-from notion.app import Notion
+from bolt.main import app
+from notion.app import notion
 
 
 @app.message("hello")
@@ -198,8 +198,7 @@ temp = {
 
 # 임시저장
 
-# TODO 분기
-notion = Notion()
+# # TODO 분기
 
 
 @app.action("create_reservation")

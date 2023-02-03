@@ -37,6 +37,8 @@ class Notion(PlatFormSetting):
 
         return temp_mapping.get(type)
 
+    # TODO read, create 함수 분기
+
     async def get_reservation(self, database_name=None):
 
         read_url = self._get_url(type="read_db", database_id=self.get_database_id(database_name))
@@ -73,6 +75,7 @@ class Notion(PlatFormSetting):
 
         return {"status_code": data.status_code}
 
+    # TODO read, create 함수 분기
     def create_reservation(self, database_name=None, room=None, title=None, purpose=None, start=None, end=None):
 
         database_id = self.get_database_id(database_name)
@@ -99,3 +102,6 @@ class Notion(PlatFormSetting):
         data = json.dumps(newPageData)
         response = requests.post(create_page_url, headers=self.headers, data=data)
         return {"status_code": response.status_code}
+
+
+notion = Notion()
