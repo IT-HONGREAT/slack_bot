@@ -22,3 +22,6 @@ SLACK_BOT_TOKEN=xoxb-<your-bot-token>
 
     <main.py>  process is temporary.
     
+### 4. Call your bot by texting`bot` in Slack channel
+    
+    initial name is `bot`

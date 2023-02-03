@@ -13,4 +13,4 @@ def test_name(body, ack, say):
     say(context_example)
 
 
-Handler.start()
+bolt_socket = Handler.start()
