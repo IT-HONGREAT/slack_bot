@@ -1,6 +1,7 @@
 from slack_bolt.adapter.socket_mode import SocketModeHandler
 
 from bolt_main import app
+from notion.app import Notion
 from slack_mod.app import slack_setting
 
 
@@ -165,49 +166,55 @@ temp = {
 }
 
 
-temp = {
-    "title": {"type": "plain_text", "text": "Modal Title"},
-    "submit": {"type": "plain_text", "text": "Submit"},
-    "blocks": [
-        {
-            "type": "input",
-            "block_id": "edit-task-title",
-            "label": {"type": "plain_text", "text": "Task title"},
-            "element": {
-                "type": "plain_text_input",
-                "action_id": "task-title-value",
-                "initial_value": "Block Kit documentation",
-            },
-        },
-        {
-            "type": "input",
-            "block_id": "edit-ticket-desc",
-            "label": {"type": "plain_text", "text": "Ticket description"},
-            "element": {
-                "type": "plain_text_input",
-                "multiline": True,
-                "action_id": "ticket-desc-value",
-                "initial_value": "Update Block Kit documentation to include Block Kit in new surface areas (like modals).",
-            },
-        },
-    ],
-    "type": "modal",
-}
+# temp = {
+#     "title": {"type": "plain_text", "text": "Modal Title"},
+#     "submit": {"type": "plain_text", "text": "Submit"},
+#     "blocks": [
+#         {
+#             "type": "input",
+#             "block_id": "edit-task-title",
+#             "label": {"type": "plain_text", "text": "Task title"},
+#             "element": {
+#                 "type": "plain_text_input",
+#                 "action_id": "task-title-value",
+#                 "initial_value": "Block Kit documentation",
+#             },
+#         },
+#         {
+#             "type": "input",
+#             "block_id": "edit-ticket-desc",
+#             "label": {"type": "plain_text", "text": "Ticket description"},
+#             "element": {
+#                 "type": "plain_text_input",
+#                 "multiline": True,
+#                 "action_id": "ticket-desc-value",
+#                 "initial_value": "Update Block Kit documentation to include Block Kit in new surface areas (like modals).",
+#             },
+#         },
+#     ],
+#     "type": "modal",
+# }
+
 
 # 임시저장
-# @app.action("create_reservation")
-# def action_button_click(body, ack, say):
-#     ack()
-#     response = notion.create_reservation(
-#         database_name="reservation",
-#         room="지니",
-#         title="팀 회의 등록",
-#         purpose="내부회의",
-#         start="2023-02-01T01:00:00",
-#         end="2023-02-02T16:00:00",
-#     )
-#
-#     say(f"<@{body['user']['id']}> {response} 테이블링 성공")
+
+# TODO 분기
+notion = Notion()
+
+
+@app.action("create_reservation")
+def action_button_click(body, ack, say):
+    ack()
+    response = notion.create_reservation(
+        database_name="reservation",
+        room="지니",
+        title="팀 회의 등록",
+        purpose="내부회의",
+        start="2023-02-01T01:00:00",
+        end="2023-02-02T16:00:00",
+    )
+
+    say(f"<@{body['user']['id']}> {response} 테이블링 성공")
 
 
 @app.action("create_reservation")

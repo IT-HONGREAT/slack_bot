@@ -8,6 +8,7 @@ import requests
 from settings import PlatFormSetting
 
 
+# TODO dir 이름 변경
 class Notion(PlatFormSetting):
     def __init__(self):
         super().__init__()
