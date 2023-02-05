@@ -11,6 +11,8 @@ app = App(token=slack_setting.slack_bot_token)
 action_settings = {
     "get_reservation": ":one: 테이블링 예약조회",
     "create_reservation": ":two: 테이블 예약생성",
+    "example_1": ":three:예시_1",
+    "example_2": ":four:예시_2",
 }
 
 

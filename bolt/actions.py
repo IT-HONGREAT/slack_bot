@@ -1,6 +1,6 @@
 from bolt.contexts import context_example
 from bolt.main import app, Handler
-from notion.temp_actions import temp_dired_action_function
+from notion.actions import example_action_function
 
 
 @app.message("hello")
@@ -17,13 +17,10 @@ def get_(body, ack, say):
 @app.action("create_reservation")
 def make_reservation(body, ack, say):
     ack()
-    check = temp_dired_action_function(
-        database_name="reservation",
-        room="어스",
-        title="팀 회의",
-        start="2023-02-02T01:00:00",
-        end="2023-02-03T01:00:00",
-        purpose="기타",
+    check = example_action_function(
+        database_name="<your-db-name>",  # check NOTION_{DB_NAME} in <.env>
+        # example_text="제목"
+        # example_dt="2023-02-03T01:00:00",
     )
     say({"text": f"생성됨{check}"})
 
