@@ -1,3 +1,5 @@
+from slack_bolt import App
+
 from slack_bolt.adapter.socket_mode import SocketModeHandler
 
 from bolt.app import slack_setting, app
