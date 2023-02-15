@@ -36,6 +36,11 @@ NOTION = <your-notion-secret-key>
 SLACK_APP_TOKEN=xapp-<your-app-level-token>
 SLACK_BOT_TOKEN=xoxb-<your-bot-token>
 ~~~
+How to get token of slackapi
+  * app_token(xapp)
+    >* SlackAPI -> Your-app -> Settings -> Basic Information
+  * bot_token(xoxb)
+    >* SlackAPI -> Your-app -> Features -> OAuth & Permissions
 
 [**Optional**]
 ~~~
