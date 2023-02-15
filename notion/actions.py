@@ -1,5 +1,5 @@
 import json
-from notion.contexts import create_new_properity
+
 import requests
 
 from notion.app import notion
@@ -63,16 +63,3 @@ def create_reservation(database_name=None, *args, **kwargs):
     data = json.dumps(new_page_data)
     response = requests.post(db_info.get("create_page_url"), headers=notion.headers, data=data)
     return {"status_code": response.status_code}  # You can change anything.
-
-
-def create_ohunwan(database_name: str, username: str, exercise_count_dict: str):
-    db_info = notion.create_page(database_name=database_name)
-
-    new_page_data = {
-        "parent": {"database_id": db_info.get("database_id")},
-        "properties": create_new_properity(username, exercise_count_dict),
-    }
-    data = json.dumps(new_page_data)
-    response = requests.post(db_info.get("create_page_url"), headers=notion.headers, data=data)
-
-    return {"status_code": response.status_code}
