@@ -1,20 +1,5 @@
-<<<<<<< HEAD
 from slack_bolt import App
-from slack_bolt.adapter.socket_mode import SocketModeHandler
 
-from bolt.app import slack_setting
-
-app = App(token=slack_setting.slack_bot_token)
-
-
-# TODO : Make settings class or functions.
-# If there is a better way, please suggest to in-yeong.
-action_settings = {
-    "get_reservation": ":one: 테이블링 예약조회",
-    "create_reservation": ":two: 테이블 예약생성",
-    "example_1": ":three:예시_1",
-    "example_2": ":four:예시_2",
-=======
 from slack_bolt.adapter.socket_mode import SocketModeHandler
 
 from bolt.app import slack_setting, app
@@ -29,7 +14,6 @@ action_settings = {
     "create_reservation": ":two: 테이블 예약생성",
     "example_1": ":four:예시_1",
     "open_modal": "open_modal",
->>>>>>> feature/bolt
 }
 
 
