@@ -1,0 +1,14 @@
+services:
+  slackbot:
+    container_name: slack_bot
+    build:
+      context: .
+
+    command:
+      - /bin/bash
+      - -c
+      - |
+        python main.py
+    restart: always
+
+
