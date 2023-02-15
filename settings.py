@@ -15,16 +15,15 @@ class PlatFormSetting:
     @classmethod
     def _get_secret(cls, database_name: Optional[str] = None, slack_child: Optional[str] = None):
 
-        # class_name = cls.__name__
         class_name = cls.__name__.upper()
-        print(class_name)
-        if "NOTION" and database_name:
+        if class_name == "NOTION" and database_name:
             class_name += f"_{database_name}"
+        if class_name == "SLACK":
+            if slack_child:
+                class_name += f"_{slack_child.upper()}"
+            elif not slack_child:
+                return
 
-        if "SLACK" and slack_child:
-            print("-----")
-            class_name += f"_{slack_child.upper()}"
-            print(class_name, class_name)
         secret_key = dotenv.get_key(
             dotenv_path=f"{BASE_DIR}/.env",
             key_to_get=f"{class_name}",
