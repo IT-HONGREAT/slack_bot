@@ -1,8 +1,5 @@
-<<<<<<< HEAD
-=======
 from slack_bolt import App
 
->>>>>>> feature/bolt
 from settings import PlatFormSetting
 
 
@@ -19,7 +16,4 @@ class Slack(PlatFormSetting):
 
 
 slack_setting = Slack()
-<<<<<<< HEAD
-=======
 app = App(token=slack_setting.slack_bot_token)
->>>>>>> feature/bolt

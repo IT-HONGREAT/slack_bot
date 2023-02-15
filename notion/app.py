@@ -1,14 +1,12 @@
-import json
-from asyncio import sleep
 from typing import Optional
 
-import aiohttp
 import requests
 
 from settings import PlatFormSetting
 
 
 class Notion(PlatFormSetting):
+    # Add some notion settings here.
     def __init__(self):
         super().__init__()
         self.headers = {
@@ -18,11 +16,6 @@ class Notion(PlatFormSetting):
             "content-type": "application/json",
         }
 
-    async def fetch_data(self, url: str, headers: str):
-        async with aiohttp.ClientSession() as session:
-            async with session.get(url, headers=headers) as response:
-                return await response.json()
-
     def _get_url(self, type: Optional[str] = "read_db", database_id=None):
         """
         :param type: read/create ex) "read"
@@ -30,75 +23,60 @@ class Notion(PlatFormSetting):
         :return: url ex)https://~~~
         """
 
-        temp_mapping = {
+        # Add url notion CRUD or others here.
+        url_for_function = {
             "read_db": f"https://api.notion.com/v1/databases/{database_id}/query",
             "create_page": "https://api.notion.com/v1/pages",
         }
 
-        return temp_mapping.get(type)
+        return url_for_function.get(type)
 
-    async def get_reservation(self, database_name=None):
+    # TODO get_db_result instead get_db ???
+    def get_db(self, database_name=None):
 
         read_url = self._get_url(type="read_db", database_id=self.get_database_id(database_name))
 
-        """동기"""
-        # response = requests.post(read_url, headers=self.headers)
-        # data = response.json()
-        # data_result = data.get("results")
-
-        """비동기"""
-        data = self.fetch_data(read_url, self.headers)
-        print("data!!!!!!!!!!!!!!!!!!!!!!!!!", data)
-
-        sleep(2)
-        print("test!!")
-        data_result = data["results"]
+        response = requests.post(read_url, headers=self.headers)
+        data = response.json()
+        data_result = data.get("results")
 
         for i in data_result:
-            one_property = i.get("properties")
-
-            room = one_property["방"]["select"]["name"]
-            created_by = one_property["생성자"]["created_by"]["name"]
-            title = one_property["제목"]["title"][0].get("plain_text")
-            time = one_property["이용시간"].get("date")
-            if time:
-                start = time.get("start")
-                end = time.get("end")
-            tag = one_property["용도"]["select"]["name"]
-
-            print("방", "=>", room)
-            print("생성자", "=>", created_by)
-            print("제목", "=>", title)
-            if time:
-                print("이용시간", "=>", start)
-                print("이용시간", "=>", end)
-            print("용도", "=>", tag)
+            print("<your data_result> ")
 
         return {"status_code": data.status_code}
 
-    def create_reservation(self, database_name=None, room=None, title=None, purpose=None, start=None, end=None):
+    def get_db_result(self, database_name=None, payload=None):
 
+        read_url = self._get_url(type="read_db", database_id=self.get_database_id(database_name))
+
+        payload = {
+            "filter": {
+                "and": [
+                    {
+                        "property": "이용시간",
+                        "date": {"equals": "2023-02-13"},
+                    },
+                    {
+                        "property": "방",
+                        "select": {"equals": "지니"},
+                    },
+                ]
+            }
+        }
+
+        response = requests.post(read_url, headers=self.headers, json=payload)
+        data = response.json()
+        data_result = data.get("results")
+        return data_result
+
+    def create_page(self, database_name=None):
         database_id = self.get_database_id(database_name)
         create_page_url = self._get_url(type="create_page", database_id=database_id)
 
-        newPageData = {
-            "parent": {"database_id": database_id},
-            "properties": {
-                "방": {
-                    "select": {
-                        "name": room,
-                    },
-                },
-                "제목": {"title": [{"text": {"content": title}}]},
-                "이용시간": {"date": {"start": start, "end": end}},
-                "용도": {
-                    "select": {
-                        "name": purpose,
-                    }
-                },
-            },
+        return {
+            "database_id": database_id,
+            "create_page_url": create_page_url,
         }
 
-        data = json.dumps(newPageData)
-        response = requests.post(create_page_url, headers=self.headers, data=data)
-        return {"status_code": response.status_code}
+
+notion = Notion()

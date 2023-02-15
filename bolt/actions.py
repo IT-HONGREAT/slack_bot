@@ -1,10 +1,10 @@
-from datetime import datetime
+from datetime import timezone, datetime
 
-from bolt.contexts import context_example
-from bolt.forms import modal_form
+from bolt.contexts import context_example, ohunwan_block, excercise_input
 from bolt.main import app, Handler
+from bolt.forms import modal_form
 from bolt.utils import validate_reservation
-from notion.actions import create_reservation
+from notion.actions import example_action_function, create_reservation, get_reservation_db, create_ohunwan
 
 
 @app.message("hello")
@@ -138,6 +138,55 @@ def make_reservation(ack, body, client, view, logger):
         client.chat_postMessage(channel=user, text=msg)
     except e:
         logger.exception(f"발송실패 {e}")
+
+
+@app.action("get_ohunwan_block")
+def get_ohunwan_block(ack, say):
+    ack()
+    say(
+        blocks=ohunwan_block,
+        text="오운완",
+    )
+
+
+@app.action("get_exercise_input")
+def get_exercise_input(ack, client, body):
+    ack()
+
+    ohunwan_block.insert(-1, excercise_input)
+
+    client.chat_update(
+        channel=body["channel"]["id"],
+        ts=body["message"]["ts"],
+        blocks=ohunwan_block,
+        as_user=True,
+    )
+
+
+@app.action("create_ohunwan_notion")
+def create_ohunwan_notion(ack, body, say):
+    ack()
+
+    username = body["user"]["name"]
+    exercise_count_dict = {}
+    error_cnt = 0
+
+    if body["state"]["values"]:
+        for value_info in body["state"]["values"].items():
+            value = value_info[1]["plain_text_input-action"]["value"]
+
+            if value is not None:
+                exercise_count_dict[value.split(" ")[0]] = value.split(" ")[1]
+            else:
+                error_cnt += 1
+
+        if error_cnt >= 1:
+            say("`운동이름 횟수(시간)`을 입력해주세요!")
+        else:
+            create_ohunwan(database_name="오운완", username=username, exercise_count_dict=str(exercise_count_dict))
+            say("`노션`에 입력하신 운동정보가 등록되었습니다! `노션에서 확인`해주세요!")
+    else:
+        say("`운동이름 횟수(시간)`을 입력해주세요!")
 
 
 bolt_socket = Handler.start()
