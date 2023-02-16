@@ -1,7 +1,7 @@
 # Slack Bot
 
 
-* Main Bot and Add Sub functions.
+* Main Bot and Add Sub functions.(Any SDK or API)
 
 ![slack_bot.png](slack_bot.png)
 
