@@ -2,34 +2,34 @@ from slack_bolt import App
 from slack_bolt.adapter.socket_mode import SocketModeHandler
 
 from bolt.app import slack_setting, app
-
+from bolt.utils import make_button_blocks
 
 # TODO : Make settings class or functions.
 # If there is a better way, please suggest to in-yeong.
 """
 action_setting is action_button(main bot) setting.
 """
-action_settings = {
-    "get_reservation": ":one: 테이블링 예약조회",
-    "create_reservation": ":two: 테이블 예약생성",
-    "get_ohunwan_block": ":three: 오운완",
-    "example_2": ":four:예시_2",
-    "open_modal": "open_modal",
+
+link_button = [
+    {
+        "type": "button",
+        "text": {"type": "plain_text", "text": ":partying_face: 회의실예약 노션 링크", "emoji": True},
+        "url": "https://www.notion.so/toktokhan/TOKTOKHAN-DEV-2f9699f43a3e402ebe6713f0eaf27325",
+    },
+]
+
+button_settings = {
+    "https://www.notion.so/toktokhan/TOKTOKHAN-DEV-2f9699f43a3e402ebe6713f0eaf27325": ":partying_face: 회의실예약 노션 링크(temp_toknotion)",
+    "create_reservation": ":call_me_hand: 회의실 예약하기",
+    "get_ohunwan_block": ":muscle: 오운완",
 }
 
 
-action_list = [
-    {
-        "type": "button",
-        "text": {"type": "plain_text", "text": description, "emoji": True},
-        "action_id": some_action,
-    }
-    for some_action, description in action_settings.items()
-]
+bot_button = make_button_blocks(button_settings)
 
 
-@app.message("bot")
-def message_bot(message, say):
+@app.event("app_mention")
+def main_bot(message, say):
     """
     Main Bot
 
@@ -38,20 +38,27 @@ def message_bot(message, say):
         ex) <your-func-name> :  description
 
     2. Create your action function in "action.py"
+
+    Slack
+
+    1. set app_mention Subscribe to bot events
+
     """
+
     say(
         blocks=[
             {
-                "type": "section",
+                "type": "header",
                 "text": {
-                    "type": "mrkdwn",
-                    "text": "*똑봇 테스트*\n 아아 테스트 중입니다. <http://naver.com|main link>.",
+                    "type": "plain_text",
+                    "text": ":information_desk_person: slack bot",
+                    "emoji": True,
                 },
             },
-            {"type": "context", "elements": [{"type": "mrkdwn", "text": "<http://kakao.com|other link>"}]},
+            {"type": "context", "elements": [{"type": "mrkdwn", "text": "<http://naver.com|ex-naver link>"}]},
             {
                 "type": "actions",
-                "elements": action_list,
+                "elements": bot_button,
             },
         ],
     )
