@@ -6,22 +6,11 @@ from bolt.utils import make_button_blocks
 
 # TODO : Make settings class or functions.
 # If there is a better way, please suggest to in-yeong.
-"""
-action_setting is action_button(main bot) setting.
-"""
-
-link_button = [
-    {
-        "type": "button",
-        "text": {"type": "plain_text", "text": ":partying_face: 회의실예약 노션 링크", "emoji": True},
-        "url": "https://www.notion.so/toktokhan/TOKTOKHAN-DEV-2f9699f43a3e402ebe6713f0eaf27325",
-    },
-]
 
 button_settings = {
     "https://www.notion.so/toktokhan/TOKTOKHAN-DEV-2f9699f43a3e402ebe6713f0eaf27325": ":partying_face: 회의실예약 노션 링크(temp_toknotion)",
     "create_reservation": ":call_me_hand: 회의실 예약하기",
-    "get_ohunwan_block": ":muscle: 오운완",
+    "get_lunch_menu": ":knife_fork_plate: 점메추",
 }
 
 
