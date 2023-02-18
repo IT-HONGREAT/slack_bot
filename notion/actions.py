@@ -3,6 +3,7 @@ import json
 import requests
 
 from notion.app import notion
+from notion.contexts import create_new_properity
 
 
 def example_action_function(database_name=None, *args, **kwargs):
@@ -63,3 +64,19 @@ def create_reservation(database_name=None, *args, **kwargs):
     data = json.dumps(new_page_data)
     response = requests.post(db_info.get("create_page_url"), headers=notion.headers, data=data)
     return {"status_code": response.status_code}  # You can change anything.
+
+
+def get_lunch(database_name=None):
+    data_result = notion.get_db_result(database_name=database_name)
+    data_reformat_list = []
+    if data_result:
+        for i in data_result:
+            one_form = {}
+            one_property = i.get("properties")
+            one_form["food_name"] = one_property["제목"]["title"][0].get("plain_text")
+            one_form["kind"] = ", ".join([i["name"] for i in one_property["종류"]["multi_select"]])
+            one_form["restaurant_name"] = one_property["상호명"]["rich_text"][0]["text"]["content"]
+
+            data_reformat_list.append(one_form)
+
+    return data_reformat_list
