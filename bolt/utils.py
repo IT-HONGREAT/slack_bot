@@ -1,9 +1,11 @@
+from random import randint
+from typing import Optional
 from urllib.parse import urlparse
 
 from notion.actions import get_reservation_db
 
 
-def is_time_overlapping(a_start, a_end, b_start, b_end):
+def is_time_overlapping(a_start, a_end, b_start, b_end):  # TODO : 에러 종류 판단 시 return data 변경가능
     # a 기존시간, b 신청시간
     ttt = False
     if (a_start <= b_start <= a_end) or (a_start <= b_end <= a_end):
@@ -11,7 +13,7 @@ def is_time_overlapping(a_start, a_end, b_start, b_end):
     return ttt
 
 
-def validate_reservation(data=None, payload=None):
+def validate_reservation(data: dict, payload: Optional[dict]) -> bool:
     condition = True
     filtered_data = get_reservation_db(
         database_name="reservation",
@@ -60,3 +62,7 @@ def make_button_blocks(dictionary):
         for some_value, description in dictionary.items()
     ]
     return dict_to_list
+
+
+def get_random(some_list):
+    return some_list[randint(0, len(some_list) - 1)]

@@ -1,21 +1,14 @@
 from datetime import datetime
 
-from bolt.contexts import context_example
 from bolt.forms import modal_form
 from bolt.main import app, Handler
-from bolt.utils import validate_reservation
-from notion.actions import create_reservation
+from bolt.utils import validate_reservation, get_random
+from notion.actions import create_reservation, create_ohunwan, get_lunch
 
 
 @app.message("hello")
 def message_hello(message, say):
     say(text=f"Hey there <@{message['user']}>!")
-
-
-@app.action("get_reservation")
-def get_reservation(body, ack, say):
-    ack()
-    say(context_example)
 
 
 @app.action("create_reservation")
@@ -68,38 +61,34 @@ def create_reservation_modal(ack, body, client):
 
 @app.view("view_reservation")
 def make_reservation(ack, body, client, view, logger):
-
     reservation_modal_values = view["state"]["values"]
-
-    reservation_room = reservation_modal_values["reservation_room"]["static_select-action"]["selected_option"]["text"][
-        "text"
-    ]
-    reservation_purpose = reservation_modal_values["reservation_purpose"]["static_select-action"]["selected_option"][
-        "text"
-    ]["text"]
-    reservation_date = reservation_modal_values["reservation_date"]["datepicker-action"]["selected_date"]
-    reservation_start_time = reservation_modal_values["reservation_start_time"]["timepicker-action"]["selected_time"]
-    reservation_end_time = reservation_modal_values["reservation_end_time"]["timepicker-action"]["selected_time"]
-
-    # TODO fix naming + pipeline function
-    temp_data = dict(
-        reservation_start_time=reservation_start_time,
-        reservation_end_time=reservation_end_time,
-        reservation_purpose=reservation_purpose,
-    )
+    reservation_mapper = {
+        "reservation_modal_values": view["state"]["values"],
+        "reservation_room": reservation_modal_values["reservation_room"]["static_select-action"]["selected_option"][
+            "text"
+        ]["text"],
+        "reservation_purpose": reservation_modal_values["reservation_purpose"]["static_select-action"][
+            "selected_option"
+        ]["text"]["text"],
+        "reservation_date": reservation_modal_values["reservation_date"]["datepicker-action"]["selected_date"],
+        "reservation_start_time": reservation_modal_values["reservation_start_time"]["timepicker-action"][
+            "selected_time"
+        ],
+        "reservation_end_time": reservation_modal_values["reservation_end_time"]["timepicker-action"]["selected_time"],
+    }
 
     reservation_condition = validate_reservation(
-        data=temp_data,
+        data=reservation_mapper,
         payload={
             "filter": {
                 "and": [
                     {
                         "property": "이용시간",
-                        "date": {"equals": reservation_date},
+                        "date": {"equals": reservation_mapper["reservation_date"]},
                     },
                     {
                         "property": "방",
-                        "select": {"equals": reservation_room},
+                        "select": {"equals": reservation_mapper["reservation_room"]},
                     },
                 ]
             }
@@ -110,11 +99,11 @@ def make_reservation(ack, body, client, view, logger):
         # notion insert
         create_reservation(
             database_name="reservation",
-            room=reservation_room,
+            room=reservation_mapper["reservation_room"],
             title="팀 회의 등록",
-            purpose=reservation_purpose,
-            start=f"{reservation_date}T{reservation_start_time}:00",
-            end=f"{reservation_date}T{reservation_end_time}:00",
+            purpose=reservation_mapper["reservation_purpose"],
+            start=f"{reservation_mapper['reservation_date']}T{reservation_mapper['reservation_start_time']}:00",
+            end=f"{reservation_mapper['reservation_date']}T{reservation_mapper['reservation_end_time']}:00",
         )
 
     init_value = view["state"]["values"]
@@ -138,6 +127,16 @@ def make_reservation(ack, body, client, view, logger):
         client.chat_postMessage(channel=user, text=msg)
     except e:
         logger.exception(f"발송실패 {e}")
+
+
+
+
+@app.action("get_lunch_menu")
+def get_lunch_menu(body, ack, say):
+    food_list = get_lunch(database_name="lunch")
+    picked_food = get_random(food_list)
+    ack()
+    say(f"오늘의 랜덤메뉴는 {picked_food['food_name']} 입니다.")
 
 
 bolt_socket = Handler.start()

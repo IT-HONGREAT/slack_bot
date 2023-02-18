@@ -49,21 +49,6 @@ class Notion(PlatFormSetting):
 
         read_url = self._get_url(type="read_db", database_id=self.get_database_id(database_name))
 
-        payload = {
-            "filter": {
-                "and": [
-                    {
-                        "property": "이용시간",
-                        "date": {"equals": "2023-02-13"},
-                    },
-                    {
-                        "property": "방",
-                        "select": {"equals": "지니"},
-                    },
-                ]
-            }
-        }
-
         response = requests.post(read_url, headers=self.headers, json=payload)
         data = response.json()
         data_result = data.get("results")
