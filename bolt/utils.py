@@ -59,7 +59,7 @@ def make_button_blocks(dictionary):
             "text": {"type": "plain_text", "text": description, "emoji": True},
             "action_id": some_value,
         }
-        for some_value, description in dictionary.items()
+        for some_value, description in dictionary.Alarms()
     ]
     return dict_to_list
 
