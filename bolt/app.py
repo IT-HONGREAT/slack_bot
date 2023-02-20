@@ -16,4 +16,5 @@ class Slack(PlatFormSetting):
 
 
 slack_setting = Slack()
-app = App(token=slack_setting.slack_bot_token)
+# app = App(token=slack_setting.slack_bot_token)
+bolt_app = App(token=slack_setting.slack_bot_token)

@@ -1,17 +1,21 @@
 from datetime import datetime
 
+from bolt.app import bolt_app
 from bolt.forms import modal_form
-from bolt.main import app, Handler
+from bolt.main import bolt_socket_handler
 from bolt.utils import validate_reservation, get_random
 from notion.actions import create_reservation, get_lunch
 
 
-@app.message("hello")
+# from bolt.main import app, Handler
+
+
+@bolt_app.message("hello")
 def message_hello(message, say):
     say(text=f"Hey there <@{message['user']}>!")
 
 
-@app.action("create_reservation")
+@bolt_app.action("create_reservation")
 def create_reservation_modal(ack, body, client):
     ack()
     client.views_open(
@@ -59,7 +63,7 @@ def create_reservation_modal(ack, body, client):
     )
 
 
-@app.view("view_reservation")
+@bolt_app.view("view_reservation")
 def make_reservation(ack, body, client, view, logger):
     reservation_modal_values = view["state"]["values"]
     reservation_mapper = {
@@ -129,9 +133,7 @@ def make_reservation(ack, body, client, view, logger):
         logger.exception(f"발송실패 {e}")
 
 
-
-
-@app.action("get_lunch_menu")
+@bolt_app.action("get_lunch_menu")
 def get_lunch_menu(body, ack, say):
     food_list = get_lunch(database_name="lunch")
     picked_food = get_random(food_list)
@@ -139,4 +141,4 @@ def get_lunch_menu(body, ack, say):
     say(f"오늘의 랜덤메뉴는 {picked_food['food_name']} 입니다.")
 
 
-bolt_socket = Handler.start()
+bolt_socket = bolt_socket_handler.start()

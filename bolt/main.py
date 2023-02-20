@@ -1,8 +1,10 @@
-from slack_bolt import App
 from slack_bolt.adapter.socket_mode import SocketModeHandler
 
-from bolt.app import slack_setting, app
+# from bolt.app import slack_setting, app
+from bolt.app import slack_setting, bolt_app
 from bolt.utils import make_button_blocks
+
+""""""
 
 # TODO : Make settings class or functions.
 # If there is a better way, please suggest to in-yeong.
@@ -17,7 +19,7 @@ button_settings = {
 bot_button = make_button_blocks(button_settings)
 
 
-@app.event("app_mention")
+@bolt_app.event("app_mention")
 def main_bot(message, say):
     """
     Main Bot
@@ -53,4 +55,5 @@ def main_bot(message, say):
     )
 
 
-Handler = SocketModeHandler(app, slack_setting.slack_app_token)
+# Handler = SocketModeHandler(bolt_app, slack_setting.slack_app_token)
+bolt_socket_handler = SocketModeHandler(bolt_app, slack_setting.slack_app_token)
