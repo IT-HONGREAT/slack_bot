@@ -23,6 +23,4 @@ async def alarm(alarm: Alarm):
 #     # return await app_handler.handle(req)
 
 
-
-# export SLACK_SIGNING_SECRET=4c91beb23f88a769a667cdef5e2f0bf0
 # uvicorn app:api --reload --port 3000 --log-level warning
