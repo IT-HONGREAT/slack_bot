@@ -66,3 +66,19 @@ def make_button_blocks(dictionary):
 
 def get_random(some_list):
     return some_list[randint(0, len(some_list) - 1)]
+
+
+def get_user_id(user_list, user_email: str):
+    user_id = ""
+
+    members = user_list.get("members")
+    user_information = {}
+    for one_member in members:
+        user_id = one_member["id"]
+        profile = one_member.get("profile")
+        if profile:
+            email = one_member.get("profile").get("email")
+            if email:
+                user_information[email] = user_id
+    print(user_information)
+    return user_information[user_email]

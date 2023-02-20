@@ -1,4 +1,8 @@
 from datetime import datetime
+from logging import Logger
+
+from slack_bolt import BoltContext
+from slack_sdk import WebClient
 
 from bolt.app import bolt_app
 from bolt.forms import modal_form
@@ -8,7 +12,12 @@ from notion.actions import create_reservation, get_lunch
 
 
 @bolt_app.message("hello")
-def message_hello(message, say):
+def message_hello(message, say, client: WebClient, context: BoltContext, logger: Logger):
+    user_info = client.users_info(user=context.user_id)
+    email_address = user_info["user"]["profile"]["email"]
+    logger.info(email_address)
+    print(email_address)
+    # TODO user email get!
     say(f"Hey there <@{message['user']}>!")
 
 
