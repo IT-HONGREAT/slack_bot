@@ -3,7 +3,7 @@ import json
 import requests
 
 from notion.app import notion
-from notion.contexts import create_new_properity
+
 
 
 def example_action_function(database_name=None, *args, **kwargs):

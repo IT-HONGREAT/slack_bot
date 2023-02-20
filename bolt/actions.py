@@ -3,7 +3,7 @@ from datetime import datetime
 from bolt.forms import modal_form
 from bolt.main import app, Handler
 from bolt.utils import validate_reservation, get_random
-from notion.actions import create_reservation, create_ohunwan, get_lunch
+from notion.actions import create_reservation, get_lunch
 
 
 @app.message("hello")
