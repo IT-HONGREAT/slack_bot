@@ -7,12 +7,9 @@ from bolt.utils import validate_reservation, get_random
 from notion.actions import create_reservation, get_lunch
 
 
-# from bolt.main import app, Handler
-
-
 @bolt_app.message("hello")
 def message_hello(message, say):
-    say(text=f"Hey there <@{message['user']}>!")
+    say(f"Hey there <@{message['user']}>!")
 
 
 @bolt_app.action("create_reservation")

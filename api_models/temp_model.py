@@ -6,5 +6,3 @@ class Alarm(BaseModel):
     user_email: str
     context: str
     is_schedule: bool
-
-

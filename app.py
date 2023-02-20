@@ -14,8 +14,11 @@ async def alarm(alarm: Alarm):
     print(alarm.user_name)
     print(alarm.context)
     print(alarm.is_schedule)
+    bolt_app.client.chat_postMessage(channel="U04LZ5K7ML2", text=f"{alarm.user_name}님이 {alarm.context}관련 내용을 입력했습니다.")
 
-    return {"test":"teststetset"}
+    return {"test": "확인"}
+
+
 #
 # @api.post("/some_test")
 # async def some_logic(req: Request):
