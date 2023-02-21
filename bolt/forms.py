@@ -11,7 +11,6 @@ class BlockForm:  # TODO or make contextform
 
     def select_block(
         self,
-        element_type: str,
         placeholder_text: str | None,
         element_option_list: list,
         label_text: str,
@@ -30,10 +29,10 @@ class BlockForm:  # TODO or make contextform
         context = {
             "type": "input",
             "element": {
-                "type": element_type,
+                "type": "static_select",
                 "placeholder": {"type": "plain_text", "text": placeholder_text, "emoji": True},
                 "options": options_form,
-                "action_id": f"{element_type}-action",
+                "action_id": "static_select-action",
             },
             "label": {"type": "plain_text", "text": label_text, "emoji": True},
             "block_id": block_name,
@@ -43,7 +42,7 @@ class BlockForm:  # TODO or make contextform
 
     def date_or_time_block(
         self,
-        element_type: str,
+        picker_type: str,
         placeholder_date_or_time: str | None,
         label_text: str,
         block_name: str,
@@ -55,14 +54,15 @@ class BlockForm:  # TODO or make contextform
         if element_type is datepicker
             placeholder_date_or_time = "10:00"
         """
-        date_or_time = element_type[:4]
+        date_or_time = picker_type
+        # date_or_time = element_type[:4]
 
         context = {
             "type": "input",
             "element": {
-                "type": element_type,
+                "type": f"{date_or_time}picker",
                 f"initial_{date_or_time}": placeholder_date_or_time,
-                "action_id": f"{element_type}-action",
+                "action_id": f"{date_or_time}picker-action",
             },
             "label": {"type": "plain_text", "text": label_text, "emoji": True},
             "block_id": block_name,
@@ -72,7 +72,6 @@ class BlockForm:  # TODO or make contextform
 
     def plain_text_block(
         self,
-        element_type: str,
         text: str,
         placeholder_text: str,
         block_name: str,
@@ -82,9 +81,9 @@ class BlockForm:  # TODO or make contextform
         context = {
             "type": "input",
             "element": {
-                "type": element_type,
+                "type": "plain_text_input",
                 "multiline": is_multiline,
-                "action_id": f"{element_type}-action",
+                "action_id": "plain_text_input-action",
                 "placeholder": {"type": "plain_text", "text": placeholder_text, "emoji": True},
             },
             "label": {

@@ -31,33 +31,31 @@ def create_reservation_modal(ack, body, client):
             "submit": {"type": "plain_text", "text": "예약하기"},
             "blocks": [
                 modal_form.select_block(
-                    element_type="static_select",
                     placeholder_text="지니/어스",
                     element_option_list=["지니", "어스"],
                     label_text="회의실 선택",
                     block_name="reservation_room",
                 ),
                 modal_form.select_block(
-                    element_type="static_select",
                     placeholder_text="용도",
                     element_option_list=["일반 회의", "내부 회의", "클라이언트 미팅", "기타"],
                     label_text="회의실 선택",
                     block_name="reservation_purpose",
                 ),
                 modal_form.date_or_time_block(
-                    element_type="datepicker",
+                    picker_type="date",
                     placeholder_date_or_time=datetime.now().strftime("%Y-%m-%d"),
                     label_text="예약일",
                     block_name="reservation_date",
                 ),
                 modal_form.date_or_time_block(
-                    element_type="timepicker",
+                    picker_type="time",
                     placeholder_date_or_time="09:00",
                     label_text="시작 시간",
                     block_name="reservation_start_time",
                 ),
                 modal_form.date_or_time_block(
-                    element_type="timepicker",
+                    picker_type="time",
                     placeholder_date_or_time="19:00",
                     label_text="종료 시간",
                     block_name="reservation_end_time",
@@ -162,8 +160,7 @@ def send_dm_anonymous_modal(ack, body, client):
                     block_name="select_user_dm",
                 ),
                 modal_form.plain_text_block(
-                    element_type="plain_text_input",
-                    text="마편~",
+                    text="마음의 편지",
                     placeholder_text="전하고 싶은 말을 적어주세요!",
                     block_name="context_dm",
                     is_multiline=True,
