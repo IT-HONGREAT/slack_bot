@@ -145,4 +145,32 @@ def get_lunch_menu(body, ack, say):
     say(f"오늘의 랜덤메뉴는 {picked_food['food_name']} 입니다.")
 
 
+@bolt_app.action("send_dm_anonymous")
+def send_dm_anonymous_modal(ack, body, client):
+    ack()
+    client.views_open(
+        trigger_id=body["trigger_id"],
+        view={
+            "type": "modal",
+            "callback_id": "view_dm_anonymous",
+            "title": {"type": "plain_text", "text": "마음의 편지"},
+            "submit": {"type": "plain_text", "text": "전송하기"},
+            "blocks": [
+                modal_form.select_user_block(
+                    text="testes",
+                    placeholder_text="123123",
+                    block_name="select_user_dm",
+                ),
+                modal_form.plain_text_block(
+                    element_type="plain_text_input",
+                    text="마편~",
+                    placeholder_text="전하고 싶은 말을 적어주세요!",
+                    block_name="context_dm",
+                    is_multiline=True,
+                ),
+            ],
+        },
+    )
+
+
 bolt_socket = bolt_socket_handler.start()

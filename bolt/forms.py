@@ -70,5 +70,52 @@ class BlockForm:  # TODO or make contextform
 
         return context
 
+    def plain_text_block(
+        self,
+        element_type: str,
+        text: str,
+        placeholder_text: str,
+        block_name: str,
+        is_multiline: bool,
+    ) -> dict:
+
+        context = {
+            "type": "input",
+            "element": {
+                "type": element_type,
+                "multiline": is_multiline,
+                "action_id": f"{element_type}-action",
+                "placeholder": {"type": "plain_text", "text": placeholder_text, "emoji": True},
+            },
+            "label": {
+                "type": "plain_text",
+                "text": text,
+                "emoji": True,
+            },
+            "block_id": block_name,
+        }
+
+        return context
+
+    def select_user_block(
+        self,
+        text: str,
+        placeholder_text: str,
+        block_name: str,
+    ) -> dict:
+
+        context = {
+            "type": "input",
+            "element": {
+                "type": "multi_users_select",
+                "placeholder": {"type": "plain_text", "text": placeholder_text, "emoji": True},
+                "action_id": "multi_users_select-action",
+            },
+            "label": {"type": "plain_text", "text": text, "emoji": True},
+            "block_id": block_name,
+        }
+
+        return context
+
 
 modal_form = BlockForm()  # TODO 사용성 개선
