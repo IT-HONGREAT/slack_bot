@@ -2,10 +2,10 @@ from pydantic import BaseModel
 
 
 class Alarm(BaseModel):
-    user_name: str
+    user_name: str | None = None
     user_email: str
-    context: str
-    is_schedule: bool
+    context: str | None = None
+    is_schedule: bool | None = None
 
 
 class TempTesk(BaseModel):
