@@ -31,33 +31,31 @@ def create_reservation_modal(ack, body, client):
             "submit": {"type": "plain_text", "text": "예약하기"},
             "blocks": [
                 modal_form.select_block(
-                    element_type="static_select",
                     placeholder_text="지니/어스",
                     element_option_list=["지니", "어스"],
                     label_text="회의실 선택",
                     block_name="reservation_room",
                 ),
                 modal_form.select_block(
-                    element_type="static_select",
                     placeholder_text="용도",
                     element_option_list=["일반 회의", "내부 회의", "클라이언트 미팅", "기타"],
                     label_text="회의실 선택",
                     block_name="reservation_purpose",
                 ),
                 modal_form.date_or_time_block(
-                    element_type="datepicker",
+                    picker_type="date",
                     placeholder_date_or_time=datetime.now().strftime("%Y-%m-%d"),
                     label_text="예약일",
                     block_name="reservation_date",
                 ),
                 modal_form.date_or_time_block(
-                    element_type="timepicker",
+                    picker_type="time",
                     placeholder_date_or_time="09:00",
                     label_text="시작 시간",
                     block_name="reservation_start_time",
                 ),
                 modal_form.date_or_time_block(
-                    element_type="timepicker",
+                    picker_type="time",
                     placeholder_date_or_time="19:00",
                     label_text="종료 시간",
                     block_name="reservation_end_time",
@@ -143,6 +141,54 @@ def get_lunch_menu(body, ack, say):
     picked_food = get_random(food_list)
     ack()
     say(f"오늘의 랜덤메뉴는 {picked_food['food_name']} 입니다.")
+
+
+@bolt_app.action("send_dm_anonymous")
+def send_dm_anonymous_modal(ack, body, client):
+    ack()
+    client.views_open(
+        trigger_id=body["trigger_id"],
+        view={
+            "type": "modal",
+            "callback_id": "view_dm_anonymous",
+            "title": {"type": "plain_text", "text": "마음의 편지"},
+            "submit": {"type": "plain_text", "text": "전송하기"},
+            "blocks": [
+                modal_form.select_user_block(
+                    text="수신자",
+                    placeholder_text="편지를 보낼 유저를 선택해주세요. 익명이 보장됩니다.",
+                    block_name="select_user_dm",
+                ),
+                modal_form.plain_text_block(
+                    text="마음의 편지",
+                    placeholder_text="전하고 싶은 말을 적어주세요.",
+                    block_name="context_dm",
+                    is_multiline=True,
+                ),
+            ],
+        },
+    )
+
+
+@bolt_app.view("view_dm_anonymous")
+def send_dm(ack, body, client, view, logger):
+    init_value = view["state"]["values"]
+    users = init_value["select_user_dm"]["multi_users_select-action"]["selected_users"]
+    context_dm = init_value["context_dm"]["plain_text_input-action"]["value"]
+    # user = body["user"]["id"]
+
+    errors = {}
+    if not init_value:
+        errors["values"] = "value error"
+    if len(errors) > 0:
+        ack(response_action="errors", errors=errors)
+        return
+    ack()
+    try:
+        for user in users:
+            client.chat_postMessage(channel=user, text=f"익명으로부터 : {context_dm}")
+    except Exception as e:
+        logger.exception(f"발송실패 {e}")
 
 
 bolt_socket = bolt_socket_handler.start()

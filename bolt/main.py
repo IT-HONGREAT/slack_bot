@@ -10,6 +10,7 @@ button_settings = {
     "https://www.notion.so/toktokhan/TOKTOKHAN-DEV-2f9699f43a3e402ebe6713f0eaf27325": ":partying_face: 회의실예약 노션 링크(temp_toknotion)",
     "create_reservation": ":call_me_hand: 회의실 예약하기",
     "get_lunch_menu": ":knife_fork_plate: 점메추",
+    "send_dm_anonymous": ":love_letter: 마음의 편지",
 }
 
 
