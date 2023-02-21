@@ -155,19 +155,40 @@ def send_dm_anonymous_modal(ack, body, client):
             "submit": {"type": "plain_text", "text": "전송하기"},
             "blocks": [
                 modal_form.select_user_block(
-                    text="testes",
-                    placeholder_text="123123",
+                    text="수신자",
+                    placeholder_text="편지를 보낼 유저를 선택해주세요. 익명이 보장됩니다.",
                     block_name="select_user_dm",
                 ),
                 modal_form.plain_text_block(
                     text="마음의 편지",
-                    placeholder_text="전하고 싶은 말을 적어주세요!",
+                    placeholder_text="전하고 싶은 말을 적어주세요.",
                     block_name="context_dm",
                     is_multiline=True,
                 ),
             ],
         },
     )
+
+
+@bolt_app.view("view_dm_anonymous")
+def send_dm(ack, body, client, view, logger):
+    init_value = view["state"]["values"]
+    users = init_value["select_user_dm"]["multi_users_select-action"]["selected_users"]
+    context_dm = init_value["context_dm"]["plain_text_input-action"]["value"]
+    # user = body["user"]["id"]
+
+    errors = {}
+    if not init_value:
+        errors["values"] = "value error"
+    if len(errors) > 0:
+        ack(response_action="errors", errors=errors)
+        return
+    ack()
+    try:
+        for user in users:
+            client.chat_postMessage(channel=user, text=f"익명으로부터 : {context_dm}")
+    except Exception as e:
+        logger.exception(f"발송실패 {e}")
 
 
 bolt_socket = bolt_socket_handler.start()
