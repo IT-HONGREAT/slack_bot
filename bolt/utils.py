@@ -59,10 +59,24 @@ def make_button_blocks(dictionary):
             "text": {"type": "plain_text", "text": description, "emoji": True},
             "action_id": some_value,
         }
-        for some_value, description in dictionary.Alarms()
+        for some_value, description in dictionary.items()
     ]
     return dict_to_list
 
 
 def get_random(some_list):
     return some_list[randint(0, len(some_list) - 1)]
+
+
+def get_user_id(slack_users, user_email=None):
+    user_id = ""
+    user_information = {}
+    members = slack_users.get("members")
+    for one_member in members:
+        user_id = one_member["id"]
+        profile = one_member.get("profile")
+        if profile:
+            email = one_member.get("profile").get("email")
+            if email:
+                user_information[email] = user_id
+    return user_information.get(user_email)

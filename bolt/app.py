@@ -13,8 +13,11 @@ class Slack(PlatFormSetting):
         super().__init__()
         self.slack_bot_token = self.get_slack_detail_key("bot_token")
         self.slack_app_token = self.get_slack_detail_key("app_token")
+        self.slack_signing_secret = self.get_slack_detail_key("signing_secret")
 
 
 slack_setting = Slack()
-# app = App(token=slack_setting.slack_bot_token)
-bolt_app = App(token=slack_setting.slack_bot_token)
+bolt_app = App(
+    token=slack_setting.slack_bot_token,
+    signing_secret=slack_setting.slack_signing_secret,
+)
