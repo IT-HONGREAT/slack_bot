@@ -17,16 +17,7 @@ async def alarm(alarm: Alarm):
     if user_id:
         bolt_app.client.chat_postMessage(channel=user_id, text=f"{alarm.user_name}님이 {alarm.context}관련 내용을 입력했습니다.")
         return {"user_id": user_id}
-    bolt_app.client.chat_postMessage(channel=user_id, text=f"{alarm.user_name}님이 {alarm.context}관련 내용을 입력했습니다.")
     raise HTTPException(status_code=404, detail="유저를 찾을수 없습니다.")
 
 
-#
-# @api.post("/some_test")
-# async def some_logic(req: Request):
-#     print("testtesttes!!")
-#     # return await app_handler.handle(req)
-
-
-# uvicorn app:api --reload --port 3000 --log-level warning
 # uvicorn 모듈이름:api --reload --port 3000 --log-level warning
