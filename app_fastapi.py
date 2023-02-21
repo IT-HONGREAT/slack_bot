@@ -1,0 +1,32 @@
+from fastapi import FastAPI, HTTPException
+from slack_bolt.adapter.asgi import SlackRequestHandler
+
+from api_models.temp_model import Alarm
+from bolt.app import bolt_app
+from bolt.utils import get_user_id
+
+api = FastAPI()
+app_handler = SlackRequestHandler(bolt_app)
+
+
+@api.post("/alarm")
+async def alarm(alarm: Alarm):
+
+    check = bolt_app.client.users_list()
+    user_id = get_user_id(check, user_email=alarm.user_email)
+    if user_id:
+        bolt_app.client.chat_postMessage(channel=user_id, text=f"{alarm.user_name}님이 {alarm.context}관련 내용을 입력했습니다.")
+        return {"user_id": user_id}
+    bolt_app.client.chat_postMessage(channel=user_id, text=f"{alarm.user_name}님이 {alarm.context}관련 내용을 입력했습니다.")
+    raise HTTPException(status_code=404, detail="유저를 찾을수 없습니다.")
+
+
+#
+# @api.post("/some_test")
+# async def some_logic(req: Request):
+#     print("testtesttes!!")
+#     # return await app_handler.handle(req)
+
+
+# uvicorn app:api --reload --port 3000 --log-level warning
+# uvicorn 모듈이름:api --reload --port 3000 --log-level warning

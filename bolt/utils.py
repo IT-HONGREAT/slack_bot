@@ -68,10 +68,10 @@ def get_random(some_list):
     return some_list[randint(0, len(some_list) - 1)]
 
 
-def get_user_id(user_list, user_email: str):
+def get_user_id(slack_users, user_email=None):
     user_id = ""
 
-    members = user_list.get("members")
+    members = slack_users.get("members")
     user_information = {}
     for one_member in members:
         user_id = one_member["id"]
@@ -81,4 +81,4 @@ def get_user_id(user_list, user_email: str):
             if email:
                 user_information[email] = user_id
     print(user_information)
-    return user_information[user_email]
+    return user_information.get(user_email)

@@ -16,8 +16,6 @@ def message_hello(message, say, client: WebClient, context: BoltContext, logger:
     user_info = client.users_info(user=context.user_id)
     email_address = user_info["user"]["profile"]["email"]
     logger.info(email_address)
-    print(email_address)
-    # TODO user email get!
     say(f"Hey there <@{message['user']}>!")
 
 

@@ -6,3 +6,8 @@ class Alarm(BaseModel):
     user_email: str
     context: str
     is_schedule: bool
+
+
+class TempTesk(BaseModel):
+    contract_name: str
+    contract_money: int
