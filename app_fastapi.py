@@ -1,9 +1,9 @@
 from fastapi import FastAPI, HTTPException
 from slack_bolt.adapter.asgi import SlackRequestHandler
 
-from api_models.temp_model import Alarm
 from bolt.app import bolt_app
 from bolt.utils import get_user_id
+from router_fastapi.models import Alarm
 
 api = FastAPI()
 app_handler = SlackRequestHandler(bolt_app)
