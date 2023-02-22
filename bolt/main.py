@@ -3,37 +3,28 @@ from slack_bolt.adapter.socket_mode import SocketModeHandler
 from bolt.app import slack_setting, bolt_app
 from bolt.utils import make_button_blocks
 
-# TODO : Make settings class or functions.
-# If there is a better way, please suggest to in-yeong.
+# Slack Emoji
+NOTION_LINK = "https://www.notion.so/toktokhan/TOKTOKHAN-DEV-2f9699f43a3e402ebe6713f0eaf27325"
+EMOJI_PARTY = ":partying_face:"
+EMOJI_HAND = ":call_me_hand:"
+EMOJI_FOOD = ":knife_fork_plate:"
+EMOJI_LETTER = ":love_letter:"
 
-button_settings = {
-    "https://www.notion.so/toktokhan/TOKTOKHAN-DEV-2f9699f43a3e402ebe6713f0eaf27325": ":partying_face: 회의실예약 노션 링크(temp_toknotion)",
-    "create_reservation": ":call_me_hand: 회의실 예약하기",
-    "get_lunch_menu": ":knife_fork_plate: 점메추",
-    "send_dm_anonymous": ":love_letter: 마음의 편지",
+BUTTON_SETTINGS = {
+    NOTION_LINK: f"{EMOJI_PARTY} 회의실예약 노션 링크(temp_toknotion)",
+    "create_reservation": f"{EMOJI_HAND} 회의실 예약하기",
+    "get_lunch_menu": f"{EMOJI_FOOD} 점메추",
+    "send_dm_anonymous": f"{EMOJI_LETTER} 마음의 편지",
 }
 
-
-bot_button = make_button_blocks(button_settings)
+bot_buttons = make_button_blocks(BUTTON_SETTINGS)
 
 
 @bolt_app.event("app_mention")
-def main_bot(message, say):
+def handle_app_mention(message: dict, say: callable) -> None:
     """
-    Main Bot
-
-    1. Add your action in "action_settings"
-        key : value
-        ex) <your-func-name> :  description
-
-    2. Create your action function in "action.py"
-
-    Slack
-
-    1. set app_mention Subscribe to bot events
-
+    Handles @mention event in Slack
     """
-
     say(
         blocks=[
             {
@@ -47,7 +38,7 @@ def main_bot(message, say):
             {"type": "context", "elements": [{"type": "mrkdwn", "text": "<http://naver.com|ex-naver link>"}]},
             {
                 "type": "actions",
-                "elements": bot_button,
+                "elements": bot_buttons,
             },
         ],
     )
