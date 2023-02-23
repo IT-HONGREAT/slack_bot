@@ -1,9 +1,9 @@
 from slack_bolt import App
 
-from settings import PlatFormSetting
+from settings import PlatformSetting
 
 
-class Slack(PlatFormSetting):
+class Slack(PlatformSetting):
     def __init__(self):
         """
         If you need to add some token or secret_key for [slack or bolt] setup, add it here.
