@@ -2,13 +2,14 @@ from typing import Optional
 
 import requests
 
-from settings import PlatFormSetting
+from settings import PlatformSetting
 
 
-class Notion(PlatFormSetting):
+class Notion(PlatformSetting):
     # Add some notion settings here.
     def __init__(self):
         super().__init__()
+        print("!!", self.token)
         self.headers = {
             "Authorization": "Bearer " + self.token,
             "accept": "application/json",
