@@ -19,6 +19,7 @@ def message_hello(message, say, client: WebClient, context: BoltContext, logger:
     say(f"Hey there <@{message['user']}>!")
 
 
+@bolt_app.shortcut("create_reservation")  # same as slack's callback_id
 @bolt_app.action("create_reservation")
 def create_reservation_modal(ack, body, client):
     ack()
