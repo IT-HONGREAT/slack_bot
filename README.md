@@ -57,3 +57,12 @@ NOTION_{DB_NAME}=<your-db-id>
 ### 4. Call your bot by texting `bot` in Slack channel
     
 * initial name is `bot`# slack-bot
+
+---
+## Functions
+
+| No | [Functions Name](https://github.com/IT-HONGREAT/slack_bot/blob/689ee759238e79d0058e82407cad57fdbe8d8264/bolt/actions.py)  | FROM -> TO        |
+|-------|---------------------------------------------------------------------------------------------------------------------------|-------------------|
+| 1     | [회의실 예약하기](https://github.com/IT-HONGREAT/slack_bot/blob/689ee759238e79d0058e82407cad57fdbe8d8264/bolt/actions.py#L70)    | SLACK -> NOTION   |                            
+| 2     | [점심메뉴추천](https://github.com/IT-HONGREAT/slack_bot/blob/689ee759238e79d0058e82407cad57fdbe8d8264/bolt/actions.py#L140)     | NOTION -> SLACK   |                    
+| 3     | [마음의 편지(익명)](https://github.com/IT-HONGREAT/slack_bot/blob/689ee759238e79d0058e82407cad57fdbe8d8264/bolt/actions.py#L175) | SLACK(BOT -> USER) |                    
