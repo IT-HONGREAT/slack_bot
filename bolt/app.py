@@ -10,7 +10,7 @@ class Slack(PlatformSetting):
         """
         If you need to add some token or secret_key for [slack or bolt] setup, add it here.
 
-        If there is a better way, please suggest to in-yeong.
+        If there is a better way, please suggest to @IT-HONGREART.
         """
         super().__init__()
         for token_name in tokens:
