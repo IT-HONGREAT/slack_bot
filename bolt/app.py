@@ -17,7 +17,13 @@ class Slack(PlatformSetting):
             setattr(self, f"slack_{token_name}", self.get_slack_detail_key(f"{token_name}"))
 
 
-slack_setting = Slack(tokens=["bot_token", "app_token", "signing_secret"])
+slack_setting = Slack(
+    tokens=[
+        "bot_token",
+        "app_token",
+        "signing_secret",
+    ]
+)
 bolt_app = App(
     token=slack_setting.slack_bot_token,
     signing_secret=slack_setting.slack_signing_secret,
