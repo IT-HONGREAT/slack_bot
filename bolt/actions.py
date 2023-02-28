@@ -139,9 +139,12 @@ def make_reservation(ack, body, client, view, logger):
 @bolt_app.action("get_lunch_menu")
 def get_lunch_menu(body, ack, say):
     food_list = get_lunch(database_name="lunch")
-    picked_food = get_random(food_list)
     ack()
-    say(f"오늘의 랜덤메뉴는 {picked_food['food_name']} 입니다.")
+    if food_list:
+        picked_food = get_random(food_list)
+        say(f"오늘의 랜덤메뉴는 {picked_food['food_name']} 입니다.")
+    else:
+        say(f"음식리스트가 비어있습니다..")
 
 
 @bolt_app.action("send_dm_anonymous")
