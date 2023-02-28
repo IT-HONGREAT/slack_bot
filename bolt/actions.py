@@ -198,4 +198,91 @@ def send_dm(ack, body, client, view, logger):
         logger.exception(f"발송실패 {e}")
 
 
+@bolt_app.action("send_dm_schedule")
+def send_dm_anonymous_modal(ack, body, client):
+    ack()
+    client.views_open(
+        trigger_id=body["trigger_id"],
+        view={
+            "type": "modal",
+            "callback_id": "view_dm_schedule",
+            "title": {"type": "plain_text", "text": "메세지 예약발송"},
+            "submit": {"type": "plain_text", "text": "전송예약하기"},
+            "blocks": [
+                modal_form.select_user_block(
+                    text="수신자",
+                    placeholder_text="예약 메세지를 보낼 유저를 선택해주세요. 한번 전송하면 취소할 수 없습니다.",
+                    block_name="select_user_dm",
+                ),
+                modal_form.date_or_time_block(
+                    picker_type="date",
+                    placeholder_date_or_time=datetime.now().strftime("%Y-%m-%d"),
+                    label_text="발송될 날짜",
+                    block_name="dm_schedule_date",
+                ),
+                modal_form.date_or_time_block(
+                    picker_type="time",
+                    placeholder_date_or_time="09:00",
+                    label_text="발송될 시간",
+                    block_name="dm_schedule_time",
+                ),
+                modal_form.plain_text_block(
+                    text="예약 메세지",
+                    placeholder_text="내용을 입력해주세요. 예약발송 후 수정할 수 없습니다.",
+                    block_name="context_dm_schedule",
+                    is_multiline=True,
+                ),
+            ],
+        },
+    )
+
+
+@bolt_app.view("view_dm_schedule")
+def send_dm(ack, body, client, view, logger):
+    init_value = view["state"]["values"]
+
+    users = init_value["select_user_dm"]["multi_users_select-action"]["selected_users"]
+    context_dm_schedule = init_value["context_dm_schedule"]["plain_text_input-action"]["value"]
+    dm_schedule_date = init_value["dm_schedule_date"]["datepicker-action"]["selected_date"]
+    dm_schedule_time = init_value["dm_schedule_time"]["timepicker-action"]["selected_time"]
+    print(dm_schedule_date, dm_schedule_time)
+    # user = body["user"]["id"]
+
+    errors = {}
+    if not init_value:
+        errors["values"] = "value error"
+    if len(errors) > 0:
+        ack(response_action="errors", errors=errors)
+        return
+    ack()
+    try:
+        for user in users:
+            # client.chat_postMessage(channel=user, text=f"익명으로부터 : {context_dm}")
+
+            # str_time = "2023-02-28 15:10"
+
+            def datetime_to_timestamp(check: str):
+                datetime_to_int = None
+                try:
+                    datetime_time = datetime.strptime(check, "%Y-%m-%d %H:%M")
+                    datetime_to_int = datetime_time.timestamp()
+                except Exception as e:
+                    print("시간에러!!", e)
+
+                return datetime_to_int
+
+            # ten_test = datetime_to_timestamp(check="2023-02-28 15:10")
+            # eleven_test = datetime_to_timestamp(check="2023-02-28 15:11")
+            print("시간확인!!", f"{dm_schedule_date} {dm_schedule_time}")
+            ddddtime = datetime_to_timestamp(f"{dm_schedule_date} {dm_schedule_time}")
+            client.chat_scheduleMessage(
+                channel=user,
+                post_at=ddddtime,
+                text=f"스케쥴메세지 확인!!{ddddtime},{context_dm_schedule}",
+            )
+
+    except Exception as e:
+        logger.exception(f"발송실패 {e}")
+
+
 bolt_socket = bolt_socket_handler.start()
