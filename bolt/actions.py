@@ -68,6 +68,7 @@ def create_reservation_modal(ack, body, client):
 
 @bolt_app.view("view_reservation")
 def make_reservation(ack, body, client, view, logger):
+    ack()
     reservation_modal_values = view["state"]["values"]
     reservation_mapper = {
         "reservation_modal_values": view["state"]["values"],
@@ -121,7 +122,7 @@ def make_reservation(ack, body, client, view, logger):
     if len(errors) > 0:
         ack(response_action="errors", errors=errors)
         return
-    ack()
+    # ack()
     msg = ""
     try:
         msg = f"요청한 시간에 회의실이 예약되었습니다."
@@ -139,9 +140,14 @@ def make_reservation(ack, body, client, view, logger):
 @bolt_app.action("get_lunch_menu")
 def get_lunch_menu(body, ack, say):
     food_list = get_lunch(database_name="lunch")
-    picked_food = get_random(food_list)
     ack()
-    say(f"오늘의 랜덤메뉴는 {picked_food['food_name']} 입니다.")
+    try:
+        picked_food = get_random(food_list)
+        say(f"오늘의 랜덤메뉴는 {picked_food['food_name']} 입니다.")
+
+    except Exception as e:
+        print("notion lunch table error : ", e)
+        say(f"노션 메뉴테이블을 확인해주세요.")
 
 
 @bolt_app.action("send_dm_anonymous")
