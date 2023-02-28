@@ -5,7 +5,6 @@ import requests
 from notion.app import notion
 
 
-
 def example_action_function(database_name=None, *args, **kwargs):
     db_info = notion.create_page(database_name=database_name)
 

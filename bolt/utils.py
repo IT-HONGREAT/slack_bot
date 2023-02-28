@@ -65,7 +65,12 @@ def make_button_blocks(dictionary):
 
 
 def get_random(some_list):
-    return some_list[randint(0, len(some_list) - 1)]
+    value = ""
+    try:
+        value = some_list[randint(0, len(some_list) - 1)]
+    except Exception as e:
+        print("util error : ", e)
+    return value
 
 
 def get_user_id(slack_users, user_email=None):

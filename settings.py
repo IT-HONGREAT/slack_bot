@@ -20,8 +20,7 @@ class PlatformSetting:
             key_to_get += f"_{database_name}"
         elif cls.__name__.upper() == "SLACK" and slack_child:
             key_to_get += f"_{slack_child.upper()}"
-        else:
-            return dotenv.get_key(dotenv_path=ENV_PATH, key_to_get=key_to_get)
+        return dotenv.get_key(dotenv_path=ENV_PATH, key_to_get=key_to_get)
 
     def get_database_id(self, database_name: str) -> Union[str, None]:
         return self._get_secret(database_name=database_name)

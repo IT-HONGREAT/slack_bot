@@ -9,13 +9,15 @@ class Notion(PlatformSetting):
     # Add some notion settings here.
     def __init__(self):
         super().__init__()
-        print("!!", self.token)
-        self.headers = {
-            "Authorization": "Bearer " + self.token,
-            "accept": "application/json",
-            "Notion-Version": "2022-06-28",
-            "content-type": "application/json",
-        }
+        try:
+            self.headers = {
+                "Authorization": "Bearer " + self.token,
+                "accept": "application/json",
+                "Notion-Version": "2022-06-28",
+                "content-type": "application/json",
+            }
+        except TypeError as e:
+            print("notion token for header : ", e)
 
     def _get_url(self, type: Optional[str] = "read_db", database_id=None):
         """
@@ -47,12 +49,16 @@ class Notion(PlatformSetting):
         return {"status_code": data.status_code}
 
     def get_db_result(self, database_name=None, payload=None):
-
         read_url = self._get_url(type="read_db", database_id=self.get_database_id(database_name))
+        data_result = ""
+        try:
+            response = requests.post(read_url, headers=self.headers, json=payload)
+            data = response.json()
+            data_result = data.get("results")
 
-        response = requests.post(read_url, headers=self.headers, json=payload)
-        data = response.json()
-        data_result = data.get("results")
+        except AttributeError as e:
+            print("notion request URL is something wrong :", e)
+
         return data_result
 
     def create_page(self, database_name=None):
