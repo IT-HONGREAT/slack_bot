@@ -7,7 +7,7 @@ from slack_sdk import WebClient
 from bolt.app import bolt_app
 from bolt.forms import modal_form
 from bolt.main import bolt_socket_handler
-from bolt.utils import validate_reservation, get_random
+from bolt.utils import validate_reservation, get_random, datetime_to_timestamp
 from notion.actions import create_reservation, get_lunch
 
 
@@ -245,8 +245,8 @@ def send_dm(ack, body, client, view, logger):
     context_dm_schedule = init_value["context_dm_schedule"]["plain_text_input-action"]["value"]
     dm_schedule_date = init_value["dm_schedule_date"]["datepicker-action"]["selected_date"]
     dm_schedule_time = init_value["dm_schedule_time"]["timepicker-action"]["selected_time"]
-    print(dm_schedule_date, dm_schedule_time)
-    # user = body["user"]["id"]
+    sender = body["user"]["id"]
+    scheduled_datetime = f"{dm_schedule_date} {dm_schedule_time}"
 
     errors = {}
     if not init_value:
@@ -256,30 +256,19 @@ def send_dm(ack, body, client, view, logger):
         return
     ack()
     try:
-        for user in users:
-            # client.chat_postMessage(channel=user, text=f"익명으로부터 : {context_dm}")
-
-            # str_time = "2023-02-28 15:10"
-
-            def datetime_to_timestamp(check: str):
-                datetime_to_int = None
-                try:
-                    datetime_time = datetime.strptime(check, "%Y-%m-%d %H:%M")
-                    datetime_to_int = datetime_time.timestamp()
-                except Exception as e:
-                    print("시간에러!!", e)
-
-                return datetime_to_int
-
-            # ten_test = datetime_to_timestamp(check="2023-02-28 15:10")
-            # eleven_test = datetime_to_timestamp(check="2023-02-28 15:11")
-            print("시간확인!!", f"{dm_schedule_date} {dm_schedule_time}")
-            ddddtime = datetime_to_timestamp(f"{dm_schedule_date} {dm_schedule_time}")
-            client.chat_scheduleMessage(
-                channel=user,
-                post_at=ddddtime,
-                text=f"스케쥴메세지 확인!!{ddddtime},{context_dm_schedule}",
+        if users:
+            client.chat_postMessage(
+                channel=sender, text=f"요청하신 예약발송이 정상적으로 등록되었습니다.  예정 발송시간 :{scheduled_datetime}, 대상 : {users}"
             )
+            for user in users:
+                scheduled_dm_timestamp = datetime_to_timestamp(f"{dm_schedule_date} {dm_schedule_time}")
+                client.chat_scheduleMessage(
+                    channel=user,
+                    post_at=scheduled_dm_timestamp,
+                    text=f"{context_dm_schedule}",
+                )
+        else:
+            client.chat_postMessage(channel=sender, text="예약 발송이 정상적으로 등록되지 않았습니다.")
 
     except Exception as e:
         logger.exception(f"발송실패 {e}")

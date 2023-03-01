@@ -1,3 +1,4 @@
+from datetime import datetime
 from random import randint
 from typing import Optional
 from urllib.parse import urlparse
@@ -85,3 +86,16 @@ def get_user_id(slack_users, user_email=None):
             if email:
                 user_information[email] = user_id
     return user_information.get(user_email)
+
+
+def datetime_to_timestamp(date_time: str):  # 2023-03-01 10:10
+
+    datetime_to_float = None
+    try:
+        datetime_data = datetime.strptime(date_time, "%Y-%m-%d %H:%M")
+        datetime_to_float = datetime_data.timestamp()
+
+    except Exception as e:
+        print("datetime error : ", e)
+
+    return datetime_to_float
