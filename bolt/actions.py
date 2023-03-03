@@ -2,11 +2,14 @@ from datetime import datetime
 from logging import Logger
 
 from slack_bolt import BoltContext
+from slack_bolt.adapter.socket_mode import SocketModeHandler
 from slack_sdk import WebClient
 
+import settings
 from bolt.app import bolt_app
 from bolt.forms import modal_form
-from bolt.main import bolt_socket_handler
+
+# from bolt.main import bolt_socket_handler
 from bolt.utils import validate_reservation, get_random, datetime_to_timestamp
 from notion.actions import create_reservation, get_lunch
 
@@ -274,4 +277,7 @@ def send_dm(ack, body, client, view, logger):
         logger.exception(f"발송실패 {e}")
 
 
-bolt_socket = bolt_socket_handler.start()
+bolt_socket = SocketModeHandler(
+    bolt_app,
+    app_token="xapp-1-A04PS5RUCJZ-4813992331172-d092e06d82a8153d1658812583e35cb33142b2c2fa59b4d1d2d829b9d1d1fe3d",
+).start()

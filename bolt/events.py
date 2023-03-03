@@ -1,7 +1,6 @@
 from bolt.app import bolt_app
 from bolt.utils import make_button_blocks
 
-# Slack Emoji
 NOTION_LINK = "https://www.notion.so/toktokhan/TOKTOKHAN-DEV-2f9699f43a3e402ebe6713f0eaf27325"
 EMOJI_PARTY = ":partying_face:"
 EMOJI_HAND = ":call_me_hand:"
@@ -16,7 +15,6 @@ BUTTON_SETTINGS = {
     "send_dm_anonymous": f"{EMOJI_LETTER} 마음의 편지",
     "send_dm_schedule": f"{EMOJI_ALARM} 예약 메세지",
 }
-
 bot_buttons = make_button_blocks(BUTTON_SETTINGS)
 
 
