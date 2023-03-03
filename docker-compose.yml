@@ -11,4 +11,13 @@ services:
         python main.py
     restart: always
 
+  fastapi:
+    container_name: fastapi_route
+    build:
+      context: .
 
+    command: uvicorn app_fastapi:api --reload --host 0.0.0.0 --port 8000 --log-level warning
+    ports:
+      - 8000:8000
+
+    restart: always
