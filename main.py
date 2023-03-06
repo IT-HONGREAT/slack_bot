@@ -1,21 +1,12 @@
-import subprocess
-from pathlib import Path
+from slack_bolt.adapter.socket_mode import SocketModeHandler
 
-from bolt.actions import bolt_socket
-
-BASE_DIR = Path(__file__).resolve().parent
-
-
-def main(filename):
-    """
-    Runs the Python script with the given filename
-    """
-    try:
-        subprocess.run(["python", str(filename)], check=True)
-    except subprocess.CalledProcessError as e:
-        print(f"Error running {filename}: {e}")
-
+from bolt.actions import actions_check
+from bolt.app import bolt_app, slack_setting
+from bolt.main import main_button_check
 
 if __name__ == "__main__":
-    bolt_socket()
-    main(BASE_DIR / "bolt" / "main.py")
+    print(
+        actions_check,
+        main_button_check,
+    )
+    SocketModeHandler(bolt_app, slack_setting.slack_app_token).start()
