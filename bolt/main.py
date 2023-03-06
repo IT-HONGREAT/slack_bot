@@ -1,6 +1,4 @@
-from slack_bolt.adapter.socket_mode import SocketModeHandler
-
-from bolt.app import slack_setting, bolt_app
+from bolt.app import bolt_app
 from bolt.utils import make_button_blocks
 
 # Slack Emoji
@@ -46,4 +44,4 @@ def handle_app_mention(message: dict, say: callable) -> None:
     )
 
 
-bolt_socket_handler = SocketModeHandler(bolt_app, slack_setting.slack_app_token)
+main_button_check = "bolt main button is called!"  # instead handler | call check

@@ -6,7 +6,6 @@ from slack_sdk import WebClient
 
 from bolt.app import bolt_app
 from bolt.forms import modal_form
-from bolt.main import bolt_socket_handler
 from bolt.utils import validate_reservation, get_random, datetime_to_timestamp
 from notion.actions import create_reservation, get_lunch
 
@@ -274,4 +273,4 @@ def send_dm(ack, body, client, view, logger):
         logger.exception(f"발송실패 {e}")
 
 
-bolt_socket = bolt_socket_handler.start()
+actions_check = "bolt action is called!"  # instead handler.start() | call check
