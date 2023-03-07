@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
 
-from bolt.app import bolt_app
-from bolt.utils import get_user_id
+from bolt_python.app import bolt_app
+from bolt_python.utils import get_user_id
 from router_fastapi.models import Alarm
 
 router = APIRouter(
