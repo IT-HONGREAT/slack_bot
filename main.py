@@ -1,8 +1,8 @@
 from slack_bolt.adapter.socket_mode import SocketModeHandler
 
-from bolt.actions import actions_check
-from bolt.app import bolt_app, slack_setting
-from bolt.main import main_button_check
+from bolt_python.actions import actions_check
+from bolt_python.app import bolt_app, slack_setting
+from bolt_python.main import main_button_check
 
 if __name__ == "__main__":
     print(

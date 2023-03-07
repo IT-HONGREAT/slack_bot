@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from slack_bolt.adapter.asgi import SlackRequestHandler
 
-from bolt.app import bolt_app
+from bolt_python.app import bolt_app
 from router_fastapi import apis
 
 # TODO

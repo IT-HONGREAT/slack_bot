@@ -1,7 +1,6 @@
 from datetime import datetime
 from random import randint
 from typing import Optional
-from urllib.parse import urlparse
 
 from notion.actions import get_reservation_db
 
@@ -36,33 +35,6 @@ def validate_reservation(data: dict, payload: Optional[dict]) -> bool:
             if data["reservation_purpose"] != "클라이언트 미팅":
                 condition = False
     return condition
-
-
-def check_direct_link(url):
-    try:
-        result = urlparse(url)
-        return all([result.scheme, result.netloc])
-    except ValueError:
-        return False
-
-
-def make_button_blocks(dictionary):
-
-    dict_to_list = [
-        {
-            "type": "button",
-            "text": {"type": "plain_text", "text": description, "emoji": True},
-            "url": some_value,
-        }
-        if check_direct_link(some_value)
-        else {
-            "type": "button",
-            "text": {"type": "plain_text", "text": description, "emoji": True},
-            "action_id": some_value,
-        }
-        for some_value, description in dictionary.items()
-    ]
-    return dict_to_list
 
 
 def get_random(some_list):
