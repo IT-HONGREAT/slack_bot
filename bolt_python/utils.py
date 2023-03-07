@@ -71,3 +71,21 @@ def datetime_to_timestamp(date_time: str):  # 2023-03-01 10:10
         print("datetime error : ", e)
 
     return datetime_to_float
+
+
+def temp_get_user_info(user_list, find):  # ID -> some_info
+    user_information = {}
+
+    for one_user in user_list.get("members"):
+        if not one_user["is_bot"]:
+            user_id = one_user["id"]
+            profile = one_user.get("profile")
+
+            if profile:
+                email = profile.get("email")
+                display_name = profile.get("display_name")
+                real_name = profile.get("real_name")
+
+                user_information[user_id] = {"email": email, "real_name": real_name, "display_name": display_name}
+    display_name = user_information.get(find).get("display_name")
+    return display_name

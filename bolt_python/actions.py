@@ -6,8 +6,23 @@ from slack_sdk import WebClient
 
 from bolt_python.app import bolt_app
 from bolt_python.forms import modal_form
-from bolt_python.utils import validate_reservation, get_random, datetime_to_timestamp
+from bolt_python.utils import validate_reservation, get_random, datetime_to_timestamp, temp_get_user_info
 from notion.actions import create_reservation, get_lunch
+
+
+# TODO 예약메세지 발송 콜백메세지에 유저 ID가 나오는 걸 해결하기 위해!
+
+
+@bolt_app.message("test")
+def message_hello(message, say, client: WebClient, context: BoltContext, logger: Logger):
+
+    user_info = client.users_info(user=context.user_id)
+    # print("user_info", user_info)
+    print("=" * 100)
+
+    user_list = client.users_list()
+    input_id = "U04LZ5K7ML2"
+    temp_get_user_info(user_list, input_id)
 
 
 @bolt_app.message("hello")
@@ -238,6 +253,7 @@ def send_dm_anonymous_modal(ack, body, client):
 
 @bolt_app.view("view_dm_schedule")
 def send_dm(ack, body, client, view, logger):
+    user_list = client.users_list()
     init_value = view["state"]["values"]
 
     users = init_value["select_user_dm"]["multi_users_select-action"]["selected_users"]
@@ -256,16 +272,23 @@ def send_dm(ack, body, client, view, logger):
     ack()
     try:
         if users:
-            client.chat_postMessage(
-                channel=sender, text=f"요청하신 예약발송이 정상적으로 등록되었습니다.  예정 발송시간 :{scheduled_datetime}, 대상 : {users}"
-            )
-            for user in users:
+
+            user_name_list = []
+            for user_id in users:
                 scheduled_dm_timestamp = datetime_to_timestamp(f"{dm_schedule_date} {dm_schedule_time}")
                 client.chat_scheduleMessage(
-                    channel=user,
+                    channel=user_id,
                     post_at=scheduled_dm_timestamp,
                     text=f"{context_dm_schedule}",
                 )
+
+                user_name_list.append(temp_get_user_info(user_list, user_id))
+
+            # TODO clean
+
+            client.chat_postMessage(
+                channel=sender, text=f"요청하신 예약발송이 정상적으로 등록되었습니다.  예정 발송시간 :{scheduled_datetime}, 대상 : {user_name_list}"
+            )
         else:
             client.chat_postMessage(channel=sender, text="예약 발송이 정상적으로 등록되지 않았습니다.")
 
