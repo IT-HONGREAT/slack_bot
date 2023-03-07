@@ -6,23 +6,8 @@ from slack_sdk import WebClient
 
 from bolt_python.app import bolt_app
 from bolt_python.forms import modal_form
-from bolt_python.utils import validate_reservation, get_random, datetime_to_timestamp, temp_get_user_info
+from bolt_python.utils import validate_reservation, get_random, datetime_to_timestamp, get_user_information
 from notion.actions import create_reservation, get_lunch
-
-
-# TODO 예약메세지 발송 콜백메세지에 유저 ID가 나오는 걸 해결하기 위해!
-
-
-@bolt_app.message("test")
-def message_hello(message, say, client: WebClient, context: BoltContext, logger: Logger):
-
-    user_info = client.users_info(user=context.user_id)
-    # print("user_info", user_info)
-    print("=" * 100)
-
-    user_list = client.users_list()
-    input_id = "U04LZ5K7ML2"
-    temp_get_user_info(user_list, input_id)
 
 
 @bolt_app.message("hello")
@@ -281,13 +266,10 @@ def send_dm(ack, body, client, view, logger):
                     post_at=scheduled_dm_timestamp,
                     text=f"{context_dm_schedule}",
                 )
-
-                user_name_list.append(temp_get_user_info(user_list, user_id))
-
-            # TODO clean
-
+                user_name_list.append(get_user_information(user_list, client_user_id=user_id))
             client.chat_postMessage(
-                channel=sender, text=f"요청하신 예약발송이 정상적으로 등록되었습니다.  예정 발송시간 :{scheduled_datetime}, 대상 : {user_name_list}"
+                channel=sender,
+                text=f"요청하신 예약발송이 정상적으로 등록되었습니다.  예정 발송시간 :{scheduled_datetime} .  대상 : {','.join(user_name_list)}",
             )
         else:
             client.chat_postMessage(channel=sender, text="예약 발송이 정상적으로 등록되지 않았습니다.")

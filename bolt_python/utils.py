@@ -46,18 +46,27 @@ def get_random(some_list):
     return value
 
 
-def get_user_id(slack_users, user_email=None):
-    user_id = ""
+def get_user_information(client_users_list, client_user_email=None, client_user_id=None):
     user_information = {}
-    members = slack_users.get("members")
+    information = ""
+    members = client_users_list.get("members")
     for one_member in members:
         user_id = one_member["id"]
         profile = one_member.get("profile")
         if profile:
-            email = one_member.get("profile").get("email")
-            if email:
+            email = profile.get("email")
+            display_name = profile.get("display_name")
+            real_name = profile.get("real_name")
+            if client_user_email:
                 user_information[email] = user_id
-    return user_information.get(user_email)
+                information = user_information.get(client_user_email)
+            if client_user_id:
+                user_information[user_id] = {"email": email, "real_name": real_name, "display_name": display_name}
+                check = user_information.get(client_user_id)
+                if check:
+                    information = check.get("display_name")
+
+    return information
 
 
 def datetime_to_timestamp(date_time: str):  # 2023-03-01 10:10
@@ -71,21 +80,3 @@ def datetime_to_timestamp(date_time: str):  # 2023-03-01 10:10
         print("datetime error : ", e)
 
     return datetime_to_float
-
-
-def temp_get_user_info(user_list, find):  # ID -> some_info
-    user_information = {}
-
-    for one_user in user_list.get("members"):
-        if not one_user["is_bot"]:
-            user_id = one_user["id"]
-            profile = one_user.get("profile")
-
-            if profile:
-                email = profile.get("email")
-                display_name = profile.get("display_name")
-                real_name = profile.get("real_name")
-
-                user_information[user_id] = {"email": email, "real_name": real_name, "display_name": display_name}
-    display_name = user_information.get(find).get("display_name")
-    return display_name
