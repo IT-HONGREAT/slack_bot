@@ -65,6 +65,7 @@ async def contract_management_alarm(contract_settlement: ContractSettlement):
     if user_id:
         bolt_app.client.chat_postMessage(
             channel=user_id,
+            text="금일 정산 알림이 도착했습니다",
             blocks=[
                 {
                     "type": "header",
