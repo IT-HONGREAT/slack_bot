@@ -26,7 +26,7 @@ class NextWeekProjects(BaseModel):
 class DelayProjects(BaseModel):
     delay_contract_management_project_name: str = Field()
     delay_payment_kind: str = Field()
-    delay_amount: str = Field()
+    delay_amount: int = Field()
     delay_reason: str = Field()
 
 
