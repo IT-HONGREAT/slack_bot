@@ -32,7 +32,7 @@ async def contract_management_alarm(contract_settlement: ContractSettlement):
             "type": "section",
             "text": {
                 "type": "mrkdwn",
-                "text": f"{i.today_contract_management_project_name}] {i.today_payment_kind} (₩{'{:,}'.format(i.today_amount)}",
+                "text": f":white_check_mark:{i.today_contract_management_project_name}] {i.today_payment_kind} (₩{'{:,}'.format(i.today_amount)}",
             },
         }
         for i in contract_settlement.today_alarm_projects
@@ -43,7 +43,7 @@ async def contract_management_alarm(contract_settlement: ContractSettlement):
             "type": "section",
             "text": {
                 "type": "mrkdwn",
-                "text": f"{i.next_week_paid_date} [{i.next_week_contract_management_project_name}] {i.next_week_payment_kind} (₩{'{:,}'.format(i.next_week_amount)})",
+                "text": f":white_check_mark:{i.next_week_paid_date} [{i.next_week_contract_management_project_name}] {i.next_week_payment_kind} (₩{'{:,}'.format(i.next_week_amount)})",
             },
         }
         for i in contract_settlement.next_week_projects
@@ -53,7 +53,7 @@ async def contract_management_alarm(contract_settlement: ContractSettlement):
             "type": "section",
             "text": {
                 "type": "mrkdwn",
-                "text": f"[{i.delay_contract_management_project_name}] (₩{'{:,}'.format(i.delay_amount)}) : {i.delay_reason} )",
+                "text": f":white_check_mark:[{i.delay_contract_management_project_name}] (₩{'{:,}'.format(i.delay_amount)}) : {i.delay_reason} )",
             },
         }
         for i in contract_settlement.delay_projects
@@ -61,7 +61,7 @@ async def contract_management_alarm(contract_settlement: ContractSettlement):
 
     user_id = get_user_information(users, client_user_email=contract_settlement.user_email)
     user_name = get_user_information(users, client_user_id=user_id)
-    today = datetime.now().strftime("%Y년 %m월 %d일")
+    today = datetime.now().strftime("%m월 %d일")
     if user_id:
         bolt_app.client.chat_postMessage(
             channel=user_id,
@@ -70,7 +70,7 @@ async def contract_management_alarm(contract_settlement: ContractSettlement):
                     "type": "header",
                     "text": {
                         "type": "plain_text",
-                        "text": f"안녕하세요 :wave: {user_name}님!! {today} 정산일정 공유드립니다.",
+                        "text": f"안녕하세요 :wave: {user_name}님!! {today} 정산일정 공유드립니다.:money_with_wings:",
                         "emoji": True,
                     },
                 },
