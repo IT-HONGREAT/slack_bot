@@ -13,6 +13,12 @@ class Slack(PlatformSetting):
     EMOJI_FOOD = ":knife_fork_plate:"
     EMOJI_LETTER = ":love_letter:"
     EMOJI_ALARM = ":alarm_clock:"
+    EMOJI_WAVE = ":wave:"
+    EMOJI_WHITE_CHECK_MARK = ":white_check_mark:"
+    EMOJI_ONE = ":one:"
+    EMOJI_TWO = ":two:"
+    EMOJI_THREE = ":three:"
+    EMOJI_MONEY_WITH_WINGS = ":money_with_wings:"
 
     BUTTON_SETTINGS = {
         NOTION_LINK: f"{EMOJI_PARTY} 회의실예약 노션 링크(temp_toknotion)",
