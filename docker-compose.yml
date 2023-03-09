@@ -21,3 +21,12 @@ services:
       - 8000:8000
 
     restart: always
+
+#  ngrok:
+#    image: wernight/ngrok
+#    environment:
+#      - NGROK_AUTH=${NGROK_AUTH}
+#      - NGROK_PROTOCOL=http
+#      - NGROK_PORT=8000
+#    ports:
+#      - "4040:4040"
