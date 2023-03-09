@@ -1,4 +1,5 @@
 name: Init AWS
+
 on:
   workflow_dispatch:
     inputs:
@@ -8,7 +9,6 @@ on:
         required: true
         options:
           - prod
-
 
 jobs:
 
@@ -99,8 +99,5 @@ jobs:
           name: slackbot-ecs
           template: .github/cloudformation/ecs.yml
           parameter-overrides: >-
-            ProjectName=${{ needs.set_environment.outputs.project_name }},
-            ENV=${{ inputs.env }},
-            Websocket=${{ inputs.websocket }},
-            Celery=${{ inputs.celery }},
-            Celerybeat=${{ inputs.celerybeat }}
+            ProjectName=slackbot,
+           
