@@ -1,10 +1,12 @@
-name: Docker Image CI
+name: temp
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+     - main
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
 
 env:
   LIGHTSAIL_SSH_KEY: ${{ secrets.LIGHTSAIL_SSH_KEY }}
