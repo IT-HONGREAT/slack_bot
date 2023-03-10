@@ -6,13 +6,72 @@ on:
   pull_request:
     branches: [ "main" ]
 
+env:
+  LIGHTSAIL_SSH_KEY: ${{ secrets.LIGHTSAIL_SSH_KEY }}
+  LIGHTSAIL_HOST: ${{ secrets.LIGHTSAIL_HOST }}
+  LIGHTSAIL_USERNAME: ubuntu
+  AWS_REGION: ap-northeast-2
+
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag temp_slack_bot:$(date +%s)
+
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
+
+      - name: Docker Compose Build & Up
+        run: |
+          docker compose build          
+          docker compose up
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-region: ${{ env.AWS_REGION }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+
+      - name: CI
+        uses: Build Docker Image
+        run: DOCKER_BUILDKIT=1 docker build -t ${{ env.AWS_LIGHTSAIL_SERVICE_NAME }}:release .
+        with:
+          host: ${{ secrets.LIGHTSAIL_HOST }}
+          username: ${{env.LIGHTSAIL_USERNAME}}
+          key: ${{ secrets.LIGHTSAIL_SSH_KEY }}
+
+          strip_components: 1
+          target: '/home/ubuntu/test'
+
+
+
+      - name: Check Lightsail Connection
+        run: aws configure list
+
+      - name: Push Docker
+        continue-on-error: true
+        run: |
+          aws lightsail push-container-image --region ap-northeast-2 --service-name slackbot --label temp --image slackbot:latest
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
