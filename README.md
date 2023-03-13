@@ -74,10 +74,6 @@ NOTION_{DB_NAME}=<your-db-id>
 ---
 ## Deploy
 
-SlackBot -> AWS Lightsail
-
-* issue : container deploy fail "exec format error"
-  * when build image set another platform
-    ~~~
-    docker build --platform linux/amd64 -t {for imagename:tag} .
-    ~~~
+AWS Lightsail Containers
+* slackbot
+* fastapi
