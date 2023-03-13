@@ -69,3 +69,15 @@ NOTION_{DB_NAME}=<your-db-id>
 | 2   | [점심메뉴추천](https://github.com/IT-HONGREAT/slack_bot/blob/689ee759238e79d0058e82407cad57fdbe8d8264/bolt/actions.py#L140)    | NOTION -> SLACK   |                    
 | 3   | [마음의 편지(익명)](https://github.com/IT-HONGREAT/slack_bot/blob/689ee759238e79d0058e82407cad57fdbe8d8264/bolt/actions.py#L175) | SLACK(BOT -> USER) |
 | 4   | [예약 메세지](https://github.com/IT-HONGREAT/slack_bot/blob/dd37adfdb10301ab3b56cd2e77b9d5825eed15ab/bolt/actions.py#L201)    | SLACK(BOT -> USER) |
+
+
+---
+## Deploy
+
+SlackBot -> AWS Lightsail
+
+* issue : container deploy fail "exec format error"
+  * when build image set another platform
+    ~~~
+    docker build --platform linux/amd64 -t {for imagename:tag} .
+    ~~~
