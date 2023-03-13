@@ -6,3 +6,4 @@ WORKDIR /slackbot
 
 ADD . /slackbot
 RUN pip install --upgrade pip && pip install -r requirements.txt
+ENTRYPOINT ["python","main.py"]
