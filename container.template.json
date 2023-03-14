@@ -1,0 +1,11 @@
+{
+  "containers": {
+     "slackbot": {
+      "image": "",
+      "environment": {
+        "APP_ENV": "release"
+      }
+     }
+  }
+}
+
