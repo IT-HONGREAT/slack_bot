@@ -23,6 +23,24 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
+      - name: Slackbot Secrets
+        run: |
+          echo "NOTION=$NOTION" >> .env
+          echo "SLACK_APP_TOKEN=$SLACK_APP_TOKEN" > .env
+          echo "SLACK_BOT_TOKEN=$SLACK_BOT_TOKEN" > .env
+          echo "SLACK_SIGNING_SECRET=$SLACK_SIGNING_SECRET" > .env
+          echo "NOTION_reservation=$NOTION_reservation" > .env
+          echo "NOTION_lunch=$NOTION_lunch" > .env
+
+        env:
+          NOTION: ${{secrets.NOTION}}
+          SLACK_APP_TOKEN: ${{secrets.SLACK_APP_TOKEN}}
+          SLACK_BOT_TOKEN: ${{secrets.SLACK_BOT_TOKEN}}
+          SLACK_SIGNING_SECRET: ${{secrets.SLACK_SIGNING_SECRET}}
+          NOTION_reservation: ${{secrets.NOTION_reservation}}
+          NOTION_lunch: ${{secrets.NOTION_lunch}}
+
+
       - name: Install AWS Lightsail # AWS SDK on ubuntu (for cli of LightSail)
         run: |
           curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
