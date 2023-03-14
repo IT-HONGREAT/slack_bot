@@ -12,8 +12,8 @@ env:
   AWS_LIGHTSAIL_FASTAPI: slackbot-fastapi
 
 jobs:
-  deploy:
-    name: Build and Deploy
+  auth_aws_access:
+    name: AWS access
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -39,22 +39,24 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
+  build:
+    name: AWS access
+    runs-on: ubuntu-latest
+    steps:
+    - name: Slackbot Build
+      needs: [auth_aws_access]
+      run: |
+        docker build --platform linux/amd64 -t ${{ env.AWS_LIGHTSAIL_SLACKBOT }}:latest . slackbot.Dockerfile
 
 
-      - name: Slackbot Build
-        needs: [Install AWS Client, Configure AWS credentials]
-        run: docker build --platform linux/amd64 -t ${{ env.AWS_LIGHTSAIL_SLACKBOT }}:latest . slackbot.Dockerfile
-
-
-      - name: Slackbot Push and Deploy # 이미지 푸시 및 배포
-        needs: [Slackbot Build]
-        run: |
-          service_name=${{ env.AWS_LIGHTSAIL_SLACKBOT }}
-          aws lightsail push-container-image \
-            --region ${{ env.AWS_REGION }} \
-            --service-name ${service_name} \
-            --label ${service_name} \
-            --image ${service_name}:latest
-          aws lightsail get-container-images --service-name ${service_name} | jq --raw-output ".containerImages[0].image" > image.txt
-          jq --arg image $(cat image.txt) '.containers.slackbot.image = $image' container.template.json > container.json
-          aws lightsail create-container-service-deployment --service-name ${service_name} --cli-input-json file://$(pwd)/container.json
+    - name: Slackbot Push and Deploy # 이미지 푸시 및 배포
+      run: |
+        service_name=${{ env.AWS_LIGHTSAIL_SLACKBOT }}
+        aws lightsail push-container-image \
+          --region ${{ env.AWS_REGION }} \
+          --service-name ${service_name} \
+          --label ${service_name} \
+          --image ${service_name}:latest
+        aws lightsail get-container-images --service-name ${service_name} | jq --raw-output ".containerImages[0].image" > image.txt
+        jq --arg image $(cat image.txt) '.containers.slackbot.image = $image' container.template.json > container.json
+        aws lightsail create-container-service-deployment --service-name ${service_name} --cli-input-json file://$(pwd)/container.json
