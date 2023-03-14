@@ -23,22 +23,27 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-      - name: Slackbot Secrets
+#      - name: Slackbot Secrets
+#        run: |
+#          echo "NOTION=$NOTION" >>/slackbot/.env
+#          echo "SLACK_APP_TOKEN=$SLACK_APP_TOKEN" >>/slackbot/.env
+#          echo "SLACK_BOT_TOKEN=$SLACK_BOT_TOKEN" >>/slackbot/.env
+#          echo "SLACK_SIGNING_SECRET=$SLACK_SIGNING_SECRET" >>/slackbot/.env
+#          echo "NOTION_reservation=$NOTION_reservation" >>/slackbot/.env
+#          echo "NOTION_lunch=$NOTION_lunch" >>/slackbot/.env
+#
+#        env:
+#          NOTION: ${{secrets.NOTION}}
+#          SLACK_APP_TOKEN: ${{secrets.SLACK_APP_TOKEN}}
+#          SLACK_BOT_TOKEN: ${{secrets.SLACK_BOT_TOKEN}}
+#          SLACK_SIGNING_SECRET: ${{secrets.SLACK_SIGNING_SECRET}}
+#          NOTION_reservation: ${{secrets.NOTION_reservation}}
+#          NOTION_lunch: ${{secrets.NOTION_lunch}}
+      - name: dir check
         run: |
-          echo "NOTION=$NOTION" >>/slackbot/.env
-          echo "SLACK_APP_TOKEN=$SLACK_APP_TOKEN" >>/slackbot/.env
-          echo "SLACK_BOT_TOKEN=$SLACK_BOT_TOKEN" >>/slackbot/.env
-          echo "SLACK_SIGNING_SECRET=$SLACK_SIGNING_SECRET" >>/slackbot/.env
-          echo "NOTION_reservation=$NOTION_reservation" >>/slackbot/.env
-          echo "NOTION_lunch=$NOTION_lunch" >>/slackbot/.env
-
-        env:
-          NOTION: ${{secrets.NOTION}}
-          SLACK_APP_TOKEN: ${{secrets.SLACK_APP_TOKEN}}
-          SLACK_BOT_TOKEN: ${{secrets.SLACK_BOT_TOKEN}}
-          SLACK_SIGNING_SECRET: ${{secrets.SLACK_SIGNING_SECRET}}
-          NOTION_reservation: ${{secrets.NOTION_reservation}}
-          NOTION_lunch: ${{secrets.NOTION_lunch}}
+          pwd
+          ls
+          
 
 
       - name: Install AWS Lightsail # AWS SDK on ubuntu (for cli of LightSail)
