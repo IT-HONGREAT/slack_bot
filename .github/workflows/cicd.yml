@@ -54,9 +54,9 @@ jobs:
         with:
             context: .
             platforms: linux/amd64
-            push: false
+            push: true
             tags: ${{ env.AWS_LIGHTSAIL_SLACKBOT }}:latest
-            file: ./slackbot.Dockerfile
+            file: slackbot.Dockerfile
 
 #        run: |
 #          DOCKER_BUILDKIT=1 docker build --platform linux/amd64 -t ${{ env.AWS_LIGHTSAIL_SLACKBOT }}:latest . slackbot.Dockerfile
