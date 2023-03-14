@@ -46,6 +46,7 @@ jobs:
 
     steps:
       - name: Slackbot Build
+        uses: docker/setup-buildx-action@v1
         run: |
           docker build --platform linux/amd64 -t ${{ env.AWS_LIGHTSAIL_SLACKBOT }}:latest . slackbot.Dockerfile
   
