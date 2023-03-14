@@ -25,12 +25,12 @@ jobs:
 
       - name: Slackbot Secrets
         run: |
-          echo "NOTION=$NOTION" >>./slackbot/.env
-          echo "SLACK_APP_TOKEN=$SLACK_APP_TOKEN" >>./slackbot/.env
-          echo "SLACK_BOT_TOKEN=$SLACK_BOT_TOKEN" >>./slackbot/.env
-          echo "SLACK_SIGNING_SECRET=$SLACK_SIGNING_SECRET" >>./slackbot/.env
-          echo "NOTION_reservation=$NOTION_reservation" >>./slackbot/.env
-          echo "NOTION_lunch=$NOTION_lunch" >>./slackbot/.env
+          echo "NOTION=$NOTION" >>/slackbot/.env
+          echo "SLACK_APP_TOKEN=$SLACK_APP_TOKEN" >>/slackbot/.env
+          echo "SLACK_BOT_TOKEN=$SLACK_BOT_TOKEN" >>/slackbot/.env
+          echo "SLACK_SIGNING_SECRET=$SLACK_SIGNING_SECRET" >>/slackbot/.env
+          echo "NOTION_reservation=$NOTION_reservation" >>/slackbot/.env
+          echo "NOTION_lunch=$NOTION_lunch" >>/slackbot/.env
 
         env:
           NOTION: ${{secrets.NOTION}}
