@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - MY-5--cicd
 
 env:
   AWS_REGION: ap-northeast-2
@@ -12,7 +13,7 @@ env:
 
 jobs:
   deploy:
-    name: Build and deploy
+    name: Build and Deploy
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -39,11 +40,14 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
 
+
       - name: Slackbot Build
+        needs: [Install AWS Client, Configure AWS credentials]
         run: docker build --platform linux/amd64 -t ${{ env.AWS_LIGHTSAIL_SLACKBOT }}:latest . slackbot.Dockerfile
 
 
       - name: Slackbot Push and Deploy # 이미지 푸시 및 배포
+        needs: [Slackbot Build]
         run: |
           service_name=${{ env.AWS_LIGHTSAIL_SLACKBOT }}
           aws lightsail push-container-image \
