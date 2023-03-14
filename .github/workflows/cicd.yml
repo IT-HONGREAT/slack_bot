@@ -59,7 +59,7 @@ jobs:
 #            file: ./slackbot.Dockerfile
 
         run: |
-          DOCKER_BUILDKIT=1 docker build --platform linux/amd64 -t ${{ env.AWS_LIGHTSAIL_SLACKBOT }}:latest . ./slackbot.Dockerfile
+          DOCKER_BUILDKIT=1 docker build --platform linux/amd64 -t ${{ env.AWS_LIGHTSAIL_SLACKBOT }}:latest . slackbot.Dockerfile
 
 
       - name: Push and Deploy # 이미지 푸시 및 배포
