@@ -42,9 +42,9 @@ jobs:
   build:
     name: AWS access
     runs-on: ubuntu-latest
+    needs: [auth_aws_access]
     steps:
     - name: Slackbot Build
-      needs: [auth_aws_access]
       run: |
         docker build --platform linux/amd64 -t ${{ env.AWS_LIGHTSAIL_SLACKBOT }}:latest . slackbot.Dockerfile
 
