@@ -58,7 +58,8 @@ jobs:
 #            push: false
 #            tags: ${{ env.AWS_LIGHTSAIL_SLACKBOT }}:latest
 #            file: ./slackbot.Dockerfile
-
+      - name: Checkout
+        uses: actions/checkout@v2
       - name: Docker Build and Push
         uses: docker/build-push-action@v2
         with:
