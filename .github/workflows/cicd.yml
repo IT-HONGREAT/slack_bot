@@ -23,25 +23,6 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-#      - name: Slackbot Secrets
-#        run: |
-#          echo "NOTION=$NOTION" >>/slackbot/.env
-#          echo "SLACK_APP_TOKEN=$SLACK_APP_TOKEN" >>/slackbot/.env
-#          echo "SLACK_BOT_TOKEN=$SLACK_BOT_TOKEN" >>/slackbot/.env
-#          echo "SLACK_SIGNING_SECRET=$SLACK_SIGNING_SECRET" >>/slackbot/.env
-#          echo "NOTION_reservation=$NOTION_reservation" >>/slackbot/.env
-#          echo "NOTION_lunch=$NOTION_lunch" >>/slackbot/.env
-#
-#        env:
-#          NOTION: ${{secrets.NOTION}}
-#          SLACK_APP_TOKEN: ${{secrets.SLACK_APP_TOKEN}}
-#          SLACK_BOT_TOKEN: ${{secrets.SLACK_BOT_TOKEN}}
-#          SLACK_SIGNING_SECRET: ${{secrets.SLACK_SIGNING_SECRET}}
-#          NOTION_reservation: ${{secrets.NOTION_reservation}}
-#          NOTION_lunch: ${{secrets.NOTION_lunch}}
-
-          
-
 
       - name: Install AWS Lightsail # AWS SDK on ubuntu (for cli of LightSail)
         run: |
@@ -56,6 +37,23 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Slackbot Secrets
+        run: |
+          echo "NOTION=$NOTION" >>$(pwd).env
+          echo "SLACK_APP_TOKEN=$SLACK_APP_TOKEN" >>$(pwd).env
+          echo "SLACK_BOT_TOKEN=$SLACK_BOT_TOKEN" >>$(pwd).env
+          echo "SLACK_SIGNING_SECRET=$SLACK_SIGNING_SECRET" >>$(pwd).env
+          echo "NOTION_reservation=$NOTION_reservation" >>$(pwd).env
+          echo "NOTION_lunch=$NOTION_lunch" >>$(pwd).env
+
+        env:
+          NOTION: ${{secrets.NOTION}}
+          SLACK_APP_TOKEN: ${{secrets.SLACK_APP_TOKEN}}
+          SLACK_BOT_TOKEN: ${{secrets.SLACK_BOT_TOKEN}}
+          SLACK_SIGNING_SECRET: ${{secrets.SLACK_SIGNING_SECRET}}
+          NOTION_reservation: ${{secrets.NOTION_reservation}}
+          NOTION_lunch: ${{secrets.NOTION_lunch}}
+
       - name: Docker Build
         uses: docker/build-push-action@v2
         with:
@@ -64,10 +62,7 @@ jobs:
           tags: ${{ env.AWS_LIGHTSAIL_SLACKBOT }}:latest
           platforms: linux/amd64
           push: false
-      - name: dir check
-        run: |
-          echo $(pwd)
-          echo $(ls)
+
 
       - name: Push and Deploy
         run: |
