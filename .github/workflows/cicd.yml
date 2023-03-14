@@ -39,10 +39,7 @@ jobs:
 #          SLACK_SIGNING_SECRET: ${{secrets.SLACK_SIGNING_SECRET}}
 #          NOTION_reservation: ${{secrets.NOTION_reservation}}
 #          NOTION_lunch: ${{secrets.NOTION_lunch}}
-      - name: dir check
-        run: |
-          pwd
-          ls
+
           
 
 
@@ -67,6 +64,10 @@ jobs:
           tags: ${{ env.AWS_LIGHTSAIL_SLACKBOT }}:latest
           platforms: linux/amd64
           push: false
+      - name: dir check
+        run: |
+          echo $(pwd)
+          echo $(ls)
 
       - name: Push and Deploy
         run: |
