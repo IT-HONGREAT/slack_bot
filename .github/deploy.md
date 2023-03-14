@@ -2,7 +2,7 @@
 ## Deploy
 
 SlackBot -> AWS Lightsail
-
+### local deploy
 * issue : container deploy fail "exec format error"
   * when build image set another platform
     ~~~
@@ -19,3 +19,14 @@ SlackBot -> AWS Lightsail
     ~~~
     aws lightsail push-container-image --service-name slackbot --label slackbot --image {myimage}
     ~~~
+    
+### prod deploy
+>local test 기반으로 CI/CD 작성됨. 
+
+Lightsail CI/CD Process(및 참고한 것.)
+* docker build 시 configuration 을 위한 docker buildx [옵션 관련 참고한 repo](https://github.com/docker/setup-buildx-action)
+* lightsail 구조상 컨테이너 내부에 image push가 가능
+  * push 된 이미지는 lightsail 이미지에서 tag가 지정되기 때문에 별도로 파싱이 필요 하다.
+  
+* Container Deploy 시 manifest 를 cli-input-json 로 이용함.
+  * image name 관련 파싱에 [json프로세서 - jq](https://www.44bits.io/ko/post/cli_json_processor_jq_basic_syntax) 를 이용함.
