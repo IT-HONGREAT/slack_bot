@@ -1,0 +1,56 @@
+name: CI/CD
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  AWS_REGION: ap-northeast-2
+  AWS_LIGHTSAIL_SLACKBOT: slackbot
+  AWS_LIGHTSAIL_FASTAPI: slackbot-fastapi
+
+jobs:
+  deploy:
+    name: Build and deploy
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: .
+    steps:
+      - name: Checkout # working-directory checkout(for latest release)
+        uses: actions/checkout@v2
+
+      - name: Install AWS Client # AWS SDK on ubuntu (for cli of LightSail)
+        run: |
+          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+          unzip awscliv2.zip
+          sudo ./aws/install || true
+          aws --version
+          curl "https://s3.us-west-2.amazonaws.com/lightsailctl/latest/linux-amd64/lightsailctl" -o "lightsailctl"
+          sudo mv "lightsailctl" "/usr/local/bin/lightsailctl"
+          sudo chmod +x /usr/local/bin/lightsailctl
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-region: ${{ env.AWS_REGION }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+
+      - name: Slackbot Build
+        run: docker build --platform linux/amd64 -t ${{ env.AWS_LIGHTSAIL_SLACKBOT }}:latest . slackbot.Dockerfile
+
+
+      - name: Slackbot Push and Deploy # 이미지 푸시 및 배포
+        run: |
+          service_name=${{ env.AWS_LIGHTSAIL_SLACKBOT }}
+          aws lightsail push-container-image \
+            --region ${{ env.AWS_REGION }} \
+            --service-name ${service_name} \
+            --label ${service_name} \
+            --image ${service_name}:latest
+          aws lightsail get-container-images --service-name ${service_name} | jq --raw-output ".containerImages[0].image" > image.txt
+          jq --arg image $(cat image.txt) '.containers.slackbot.image = $image' container.template.json > container.json
+          aws lightsail create-container-service-deployment --service-name ${service_name} --cli-input-json file://$(pwd)/container.json
