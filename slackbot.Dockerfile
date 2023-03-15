@@ -31,7 +31,5 @@ RUN echo "NOTION_lunch=$NOTION_lunch" >> .env
 
 RUN cat .env
 
-
-
 RUN pip install --upgrade pip && pip install -r requirements.txt
 ENTRYPOINT ["python","main.py"]
