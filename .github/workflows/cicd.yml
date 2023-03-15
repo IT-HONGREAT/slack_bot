@@ -53,15 +53,14 @@ jobs:
             NOTION_reservation=${{secrets.NOTION_reservation}}
             NOTION_lunch=${{secrets.NOTION_lunch}}
 
-#
-#      - name: Push and Deploy
-#        run: |
-#          service_name=${{ env.AWS_LIGHTSAIL_SLACKBOT }}
-#          aws lightsail push-container-image \
-#            --region ${{ env.AWS_REGION }} \
-#            --service-name ${service_name} \
-#            --label ${service_name} \
-#            --image ${service_name}:latest
-#          aws lightsail get-container-images --service-name ${service_name} | jq --raw-output ".containerImages[0].image" > image.txt
-#          jq --arg image $(cat image.txt) '.containers.slackbot.image = $image' container.template.json > container.json
-#          aws lightsail create-container-service-deployment --service-name ${service_name} --cli-input-json file://$(pwd)/container.json
+      - name: Push and Deploy
+        run: |
+          service_name=${{ env.AWS_LIGHTSAIL_SLACKBOT }}
+          aws lightsail push-container-image \
+            --region ${{ env.AWS_REGION }} \
+            --service-name ${service_name} \
+            --label ${service_name} \
+            --image ${service_name}:latest
+          aws lightsail get-container-images --service-name ${service_name} | jq --raw-output ".containerImages[0].image" > image.txt
+          jq --arg image $(cat image.txt) '.containers.slackbot.image = $image' container.template.json > container.json
+          aws lightsail create-container-service-deployment --service-name ${service_name} --cli-input-json file://$(pwd)/container.json
