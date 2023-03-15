@@ -19,5 +19,9 @@ RUN echo "SLACK_SIGNING_SECRET=$SLACK_SIGNING_SECRET" >> .env
 RUN echo "NOTION_reservation=$NOTION_reservation" >> .env
 RUN echo "NOTION_lunch=$NOTION_lunch" >> .env
 
+RUN cat .env
+
+
+
 RUN pip install --upgrade pip && pip install -r requirements.txt
 ENTRYPOINT ["python","main.py"]
