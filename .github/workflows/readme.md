@@ -35,7 +35,9 @@ Lightsail CI/CD Process(및 참고한 것.)
     * image name 관련 파싱에 [json프로세서 - jq](https://www.44bits.io/ko/post/cli_json_processor_jq_basic_syntax) 를 이용함.
 
 
-* github secrets >> ".env" in running CI/CD workflow. 
+* github secrets >> ".env" in running CI/CD workflow when it is building.
+  * build-args 로 Dockerfile에 ARG 전달, setup_env.sh 의 실행문 RUN 하여 .env 완성
+    * Check by `RUN cat .env` 
 
 | No  | github secret key    | For             |
 |-----|:---------------------|-----------------|
