@@ -5,5 +5,13 @@ RUN mkdir /slackbot
 WORKDIR /slackbot
 
 ADD . /slackbot
+
+ENV NOTION $NOTION
+ENV SLACK_APP_TOKEN $SLACK_APP_TOKEN
+ENV SLACK_BOT_TOKEN $SLACK_BOT_TOKEN
+ENV SLACK_SIGNING_SECRET $SLACK_SIGNING_SECRET
+ENV NOTION_reservation $NOTION_reservation
+ENV NOTION_lunch $NOTION_lunch
+
 RUN pip install --upgrade pip && pip install -r requirements.txt
 ENTRYPOINT ["python","main.py"]

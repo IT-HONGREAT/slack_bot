@@ -37,28 +37,35 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Slackbot Secrets
-        run: |
-          echo "NOTION=$NOTION" >>$(pwd).env
-          echo "SLACK_APP_TOKEN=$SLACK_APP_TOKEN" >>$(pwd).env
-          echo "SLACK_BOT_TOKEN=$SLACK_BOT_TOKEN" >>$(pwd).env
-          echo "SLACK_SIGNING_SECRET=$SLACK_SIGNING_SECRET" >>$(pwd).env
-          echo "NOTION_reservation=$NOTION_reservation" >>$(pwd).env
-          echo "NOTION_lunch=$NOTION_lunch" >>$(pwd).env
-
-        env:
-          NOTION: ${{secrets.NOTION}}
-          SLACK_APP_TOKEN: ${{secrets.SLACK_APP_TOKEN}}
-          SLACK_BOT_TOKEN: ${{secrets.SLACK_BOT_TOKEN}}
-          SLACK_SIGNING_SECRET: ${{secrets.SLACK_SIGNING_SECRET}}
-          NOTION_reservation: ${{secrets.NOTION_reservation}}
-          NOTION_lunch: ${{secrets.NOTION_lunch}}
+#      - name: Slackbot Secrets
+#        run: |
+#          echo "NOTION=$NOTION" >>$(pwd).env
+#          echo "SLACK_APP_TOKEN=$SLACK_APP_TOKEN" >>$(pwd).env
+#          echo "SLACK_BOT_TOKEN=$SLACK_BOT_TOKEN" >>$(pwd).env
+#          echo "SLACK_SIGNING_SECRET=$SLACK_SIGNING_SECRET" >>$(pwd).env
+#          echo "NOTION_reservation=$NOTION_reservation" >>$(pwd).env
+#          echo "NOTION_lunch=$NOTION_lunch" >>$(pwd).env
+#
+#        env:
+#          NOTION: ${{secrets.NOTION}}
+#          SLACK_APP_TOKEN: ${{secrets.SLACK_APP_TOKEN}}
+#          SLACK_BOT_TOKEN: ${{secrets.SLACK_BOT_TOKEN}}
+#          SLACK_SIGNING_SECRET: ${{secrets.SLACK_SIGNING_SECRET}}
+#          NOTION_reservation: ${{secrets.NOTION_reservation}}
+#          NOTION_lunch: ${{secrets.NOTION_lunch}}
 
       - name: Docker Build
         uses: docker/build-push-action@v2
         with:
           context: .
           file: ./slackbot.Dockerfile
+          build-args: |
+            NOTION= ${{secrets.NOTION}}
+            SLACK_APP_TOKEN= ${{secrets.SLACK_APP_TOKEN}}
+            SLACK_BOT_TOKEN= ${{secrets.SLACK_BOT_TOKEN}}
+            SLACK_SIGNING_SECRET= ${{secrets.SLACK_SIGNING_SECRET}}
+            NOTION_reservation= ${{secrets.NOTION_reservation}}
+            NOTION_lunch= ${{secrets.NOTION_lunch}}
           tags: ${{ env.AWS_LIGHTSAIL_SLACKBOT }}:latest
           platforms: linux/amd64
           push: false
