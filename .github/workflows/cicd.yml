@@ -58,7 +58,6 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          file: ./slackbot.Dockerfile
           build-args: |
             NOTION= ${{secrets.NOTION}}
             SLACK_APP_TOKEN= ${{secrets.SLACK_APP_TOKEN}}
@@ -66,6 +65,7 @@ jobs:
             SLACK_SIGNING_SECRET= ${{secrets.SLACK_SIGNING_SECRET}}
             NOTION_reservation= ${{secrets.NOTION_reservation}}
             NOTION_lunch= ${{secrets.NOTION_lunch}}
+          file: ./slackbot.Dockerfile
           tags: ${{ env.AWS_LIGHTSAIL_SLACKBOT }}:latest
           platforms: linux/amd64
           push: false
