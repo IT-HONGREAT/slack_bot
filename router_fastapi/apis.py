@@ -53,7 +53,7 @@ async def contract_management_alarm(contract_settlement: ContractSettlement):
             "type": "section",
             "text": {
                 "type": "mrkdwn",
-                "text": f":white_check_mark:[{i.delay_contract_management_project_name}] (₩{'{:,}'.format(i.delay_amount)}) : {i.delay_reason} )",
+                "text": f":white_check_mark:[{i.delay_contract_management_project_name}] (₩{i.delay_amount}) : {i.delay_reason} )",
             },
         }
         for i in contract_settlement.delay_projects
