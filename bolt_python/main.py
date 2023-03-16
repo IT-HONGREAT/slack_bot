@@ -28,4 +28,4 @@ def handle_app_mention(message: dict, say: callable) -> None:
     )
 
 
-main_button_check = "bolt_python main button is called!"  # instead handler | call check
+main_button_check = "🧑🏻‍💻 bolt_python main button is called!"  # instead handler | call check

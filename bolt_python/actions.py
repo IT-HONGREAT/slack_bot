@@ -278,4 +278,4 @@ def send_dm(ack, body, client, view, logger):
         logger.exception(f"발송실패 {e}")
 
 
-actions_check = "bolt_python action is called!"  # instead handler.start() | call check
+actions_check = "💻 bolt_python action is called!"  # instead handler.start() | call check
