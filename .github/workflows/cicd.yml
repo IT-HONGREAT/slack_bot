@@ -37,7 +37,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Docker Build
+      - name: Slackbot Build
         uses: docker/build-push-action@v2
         with:
           context: .
@@ -53,7 +53,7 @@ jobs:
             NOTION_reservation=${{secrets.NOTION_reservation}}
             NOTION_lunch=${{secrets.NOTION_lunch}}
 
-      - name: Push and Deploy
+      - name: Slackbot Deploy
         run: |
           service_name=${{ env.AWS_LIGHTSAIL_SLACKBOT }}
           aws lightsail push-container-image \
@@ -62,5 +62,34 @@ jobs:
             --label ${service_name} \
             --image ${service_name}:latest
           aws lightsail get-container-images --service-name ${service_name} | jq --raw-output ".containerImages[0].image" > image.txt
-          jq --arg image $(cat image.txt) '.containers.slackbot.image = $image' container.template.json > container.json
-          aws lightsail create-container-service-deployment --service-name ${service_name} --cli-input-json file://$(pwd)/container.json
+          jq --arg image $(cat image.txt) '.containers.slackbot.image = $image' slackbot.template.json > slackbot.json
+          aws lightsail create-container-service-deployment --service-name ${service_name} --cli-input-json file://$(pwd)/slackbot.json
+          
+
+      - name: Fastapi Build
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./fastapi.Dockerfile
+          tags: ${{ env.AWS_LIGHTSAIL_FASTAPI }}:latest
+          platforms: linux/amd64
+          push: false
+          build-args: |
+            NOTION=${{secrets.NOTION}}
+            SLACK_APP_TOKEN=${{secrets.SLACK_APP_TOKEN}}
+            SLACK_BOT_TOKEN=${{secrets.SLACK_BOT_TOKEN}}
+            SLACK_SIGNING_SECRET=${{secrets.SLACK_SIGNING_SECRET}}
+            NOTION_reservation=${{secrets.NOTION_reservation}}
+            NOTION_lunch=${{secrets.NOTION_lunch}}
+
+      - name: Fastapi Deploy
+        run: |
+          service_name=${{ env.AWS_LIGHTSAIL_FASTAPI }}
+          aws lightsail push-container-image \
+            --region ${{ env.AWS_REGION }} \
+            --service-name ${service_name} \
+            --label ${service_name} \
+            --image ${service_name}:latest
+          aws lightsail get-container-images --service-name ${service_name} | jq --raw-output ".containerImages[0].image" > image.txt
+          jq --arg image $(cat image.txt) '.containers.slackbot.image = $image' slackbot_fastapi.template.json > slackbot_fastapi.json
+          aws lightsail create-container-service-deployment --service-name ${service_name} --cli-input-json file://$(pwd)/slackbot_fastapi.json

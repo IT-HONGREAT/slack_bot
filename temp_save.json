@@ -1,0 +1,13 @@
+//container.template.json
+
+{
+  "containers": {
+     "slackbot": {
+      "image": "",
+      "environment": {
+        "APP_ENV": "release"
+      }
+     }
+  }
+}
+
