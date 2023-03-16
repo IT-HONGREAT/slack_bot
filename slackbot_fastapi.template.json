@@ -1,11 +1,19 @@
 {
   "containers": {
-     "slackbot": {
+     "fastapi": {
       "image": "",
+       "ports":
+        {
+         "8080": "HTTP"
+        },
       "environment": {
         "APP_ENV": "release"
       }
      }
+  },
+  "publicEndpoint": {
+     "containerName": "fastapi",
+     "containerPort": 8080
   }
 }
 
