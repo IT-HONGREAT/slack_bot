@@ -91,5 +91,5 @@ jobs:
             --label ${service_name} \
             --image ${service_name}:latest
           aws lightsail get-container-images --service-name ${service_name} | jq --raw-output ".containerImages[0].image" > image.txt
-          jq --arg image $(cat image.txt) '.containers.slackbot.image = $image' slackbot_fastapi.template.json > slackbot_fastapi.json
+          jq --arg image $(cat image.txt) '.containers.fastapi.image = $image' slackbot_fastapi.template.json > slackbot_fastapi.json
           aws lightsail create-container-service-deployment --service-name ${service_name} --cli-input-json file://$(pwd)/slackbot_fastapi.json
