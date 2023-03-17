@@ -32,7 +32,7 @@ async def contract_management_alarm(contract_settlement: ContractSettlement):
             "type": "section",
             "text": {
                 "type": "mrkdwn",
-                "text": f":white_check_mark:{i.today_contract_management_project_name}] {i.today_payment_kind} (₩{'{:,}'.format(i.today_amount)}",
+                "text": f":white_check_mark:{i.today_contract_management_project_name}] {i.today_payment_kind} (₩{i.today_amount}",
             },
         }
         for i in contract_settlement.today_alarm_projects
@@ -43,7 +43,7 @@ async def contract_management_alarm(contract_settlement: ContractSettlement):
             "type": "section",
             "text": {
                 "type": "mrkdwn",
-                "text": f":white_check_mark:{i.next_week_paid_date} [{i.next_week_contract_management_project_name}] {i.next_week_payment_kind} (₩{'{:,}'.format(i.next_week_amount)})",
+                "text": f":white_check_mark:{i.next_week_paid_date} [{i.next_week_contract_management_project_name}] {i.next_week_payment_kind} (₩{i.next_week_amount})",
             },
         }
         for i in contract_settlement.next_week_projects

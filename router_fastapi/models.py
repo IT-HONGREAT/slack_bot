@@ -12,15 +12,15 @@ class Alarm(BaseModel):
 
 class TodayAlarmProjects(BaseModel):
     today_contract_management_project_name: str = Field()
-    today_payment_kind: int = Field()
-    today_amount: int = Field()
+    today_payment_kind: str = Field()
+    today_amount: str = Field()
 
 
 class NextWeekProjects(BaseModel):
     next_week_paid_date: str = Field()
     next_week_contract_management_project_name: str = Field()
     next_week_payment_kind: str = Field()
-    next_week_amount: int = Field()
+    next_week_amount: str = Field()
 
 
 class DelayProjects(BaseModel):
