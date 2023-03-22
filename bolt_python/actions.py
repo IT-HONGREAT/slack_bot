@@ -5,6 +5,7 @@ from slack_bolt import BoltContext
 from slack_sdk import WebClient
 
 from bolt_python.app import bolt_app
+from bolt_python.contexts import ANONYMOUS_BOARD_CHANNEL
 from bolt_python.forms import modal_form
 from bolt_python.utils import validate_reservation, get_random, datetime_to_timestamp, get_user_information
 from notion.actions import create_reservation, get_lunch
@@ -274,6 +275,57 @@ def send_dm(ack, body, client, view, logger):
         else:
             client.chat_postMessage(channel=sender, text="예약 발송이 정상적으로 등록되지 않았습니다.")
 
+    except Exception as e:
+        logger.exception(f"발송실패 {e}")
+
+
+@bolt_app.action("send_anonymous_board")
+def send_anonymous_board_modal(ack, body, client):
+    ack()
+    client.views_open(
+        trigger_id=body["trigger_id"],
+        view={
+            "type": "modal",
+            "callback_id": "view_anonymous_board",
+            "title": {"type": "plain_text", "text": "익명 게시판"},
+            "submit": {"type": "plain_text", "text": "전송하기"},
+            "blocks": [
+                modal_form.plain_text_block(
+                    text="닉네임",
+                    placeholder_text="익명 게시판에서 사용할 닉네임을 적어주세요. 사용하지않으려면 비워도 좋습니다.",
+                    block_name="nickname_to_anonymous_board",
+                    is_multiline=False,
+                    optional=True,
+                ),
+                modal_form.plain_text_block(
+                    text="익명게시판에 전시할 내용",
+                    placeholder_text="전하고 싶은 말을 적어주세요.",
+                    block_name="context_to_anonymous_board",
+                    is_multiline=True,
+                ),
+            ],
+        },
+    )
+
+
+@bolt_app.view("view_anonymous_board")
+def send_dm(ack, body, client, view, logger):
+    init_value = view["state"]["values"]
+    nickname_to_anonymous_board = init_value["nickname_to_anonymous_board"]["plain_text_input-action"]["value"]
+    context_to_anonymous_board = init_value["context_to_anonymous_board"]["plain_text_input-action"]["value"]
+
+    errors = {}
+    if not init_value:
+        errors["values"] = "value error"
+    if len(errors) > 0:
+        ack(response_action="errors", errors=errors)
+        return
+    ack()
+    try:
+        who = ""
+        if nickname_to_anonymous_board:
+            who = f"{nickname_to_anonymous_board} :"
+        client.chat_postMessage(channel=ANONYMOUS_BOARD_CHANNEL, text=f"{who} {context_to_anonymous_board}")
     except Exception as e:
         logger.exception(f"발송실패 {e}")
 
