@@ -1,4 +1,4 @@
-from bolt_python.app import bolt_app, slack_setting
+from bolt_python.app import bolt_app, slack_setting, BotSetting
 
 
 # Call main bot buttons
@@ -22,7 +22,7 @@ def handle_app_mention(message: dict, say: callable) -> None:
             {"type": "context", "elements": [{"type": "mrkdwn", "text": "<http://naver.com|ex-naver link>"}]},
             {
                 "type": "actions",
-                "elements": slack_setting.function_button,
+                "elements": slack_setting.remote_function_button(BotSetting.main_bot),
             },
         ],
     )

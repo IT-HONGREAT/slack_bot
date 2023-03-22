@@ -292,13 +292,13 @@ def send_anonymous_board_modal(ack, body, client):
             "blocks": [
                 modal_form.plain_text_block(
                     text="닉네임",
-                    placeholder_text="익명 게시판에서 사용할 닉네임을 적어주세요. 사용하지않으려면 비워도 좋습니다.",
+                    placeholder_text="사용하지 않으려면 비워도 좋습니다.",
                     block_name="nickname_to_anonymous_board",
                     is_multiline=False,
                     optional=True,
                 ),
                 modal_form.plain_text_block(
-                    text="익명게시판에 전시할 내용",
+                    text="익명이 보장됩니다. 단 서로 배려하는 마음과 예의를 지켜주세요~!",
                     placeholder_text="전하고 싶은 말을 적어주세요.",
                     block_name="context_to_anonymous_board",
                     is_multiline=True,
@@ -324,7 +324,7 @@ def send_dm(ack, body, client, view, logger):
     try:
         who = ""
         if nickname_to_anonymous_board:
-            who = f"{nickname_to_anonymous_board} :"
+            who = f"{nickname_to_anonymous_board}님의 외침 :"
         client.chat_postMessage(channel=ANONYMOUS_BOARD_CHANNEL, text=f"{who} {context_to_anonymous_board}")
     except Exception as e:
         logger.exception(f"발송실패 {e}")
