@@ -1,5 +1,5 @@
 from bolt_python.app import bolt_app, slack_setting
-from bolt_python.contexts import bot_own_channel, guide_bot, main_bot
+from bolt_python.contexts import BOT_OWN_CHANNEL, GUIDE_BOT, MAIN_BOT
 
 
 @bolt_app.shortcut("call_guide_bot")
@@ -9,7 +9,7 @@ def call_guide_shortcut(client, ack):
     """
     ack()
     client.chat_postMessage(
-        channel=bot_own_channel,
+        channel=BOT_OWN_CHANNEL,
         blocks=[
             {
                 "type": "header",
@@ -41,7 +41,7 @@ def call_guide_shortcut(client, ack):
             },
             {
                 "type": "actions",
-                "elements": slack_setting.remote_function_button(guide_bot),
+                "elements": slack_setting.remote_function_button(GUIDE_BOT),
             },
         ],
     )
@@ -51,7 +51,7 @@ def call_guide_shortcut(client, ack):
 def main_bot_shortcut(client, ack):
     ack()
     client.chat_postMessage(
-        channel=bot_own_channel,
+        channel=BOT_OWN_CHANNEL,
         blocks=[
             {
                 "type": "header",
@@ -61,10 +61,10 @@ def main_bot_shortcut(client, ack):
                     "emoji": True,
                 },
             },
-            {"type": "context", "elements": [{"type": "mrkdwn", "text": "<http://naver.com|ex-naver link>"}]},
+            {"type": "context", "elements": [{"type": "mrkdwn", "text": "<http://google.com|ex-google link>"}]},
             {
                 "type": "actions",
-                "elements": slack_setting.remote_function_button(main_bot),
+                "elements": slack_setting.remote_function_button(MAIN_BOT),
             },
         ],
     )
@@ -90,7 +90,7 @@ def handle_app_mention(message: dict, say: callable) -> None:
             {"type": "context", "elements": [{"type": "mrkdwn", "text": "<http://naver.com|ex-naver link>"}]},
             {
                 "type": "actions",
-                "elements": slack_setting.remote_function_button(main_bot),
+                "elements": slack_setting.remote_function_button(MAIN_BOT),
             },
         ],
     )

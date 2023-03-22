@@ -14,11 +14,11 @@ EMOJI_MONEY_WITH_WINGS = ":money_with_wings:"
 EMOJI_SPEAKING_HEAD_IN_SILHOUETTE = ":speaking_head_in_silhouette:"
 EMOJI_BAMBOO = ":bamboo:"
 
-guide_bot = {
+GUIDE_BOT = {
     "call_main_bot": f"{EMOJI_ONE} 메인 봇 호출",
 }
 
-main_bot = {
+MAIN_BOT = {
     NOTION_LINK: f"{EMOJI_PARTY} 회의실예약 노션 링크(temp_toknotion)",
     "create_reservation": f"{EMOJI_HAND} 회의실 예약하기",
     "get_lunch_menu": f"{EMOJI_FOOD} 점메추",
@@ -29,4 +29,4 @@ main_bot = {
 
 
 ANONYMOUS_BOARD_CHANNEL = "C050C70HFHN"
-bot_own_channel = "C04QK0W6072"
+BOT_OWN_CHANNEL = "C04QK0W6072"
