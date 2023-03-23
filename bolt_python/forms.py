@@ -89,6 +89,7 @@ class BlockForm:  # TODO or make contextform
         placeholder_text: str,
         block_name: str,
         is_multiline: bool,
+        **others,
     ) -> dict:
         context = {
             **self.input_block,
@@ -105,6 +106,7 @@ class BlockForm:  # TODO or make contextform
                     "emoji": True,
                 },
                 "block_id": block_name,
+                **others,
             },
         }
 
