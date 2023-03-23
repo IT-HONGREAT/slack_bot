@@ -27,7 +27,7 @@ def get_reservation_db(database_name=None, payload=None):
             one_property = i.get("properties")
             one_form = {}
             one_form["room"] = one_property["방"]["select"]["name"]
-            one_form["created_by"] = one_property["생성자"]["created_by"]["name"]
+            # one_form["creator"] = one_property["생성자"]["created_by"]["name"]
             one_form["title"] = one_property["제목"]["title"][0].get("plain_text")
             one_form["time"] = one_property["이용시간"].get("date")
             if one_form["time"]:
@@ -58,6 +58,7 @@ def create_reservation(database_name=None, *args, **kwargs):
                     "name": kwargs["purpose"],
                 }
             },
+            "예약자": {"rich_text": [{"text": {"content": kwargs["creator"]}}]},
         },
     }
     data = json.dumps(new_page_data)
