@@ -31,6 +31,19 @@ def create_reservation_modal(ack, body, client):
             "title": {"type": "plain_text", "text": "회의실 예약"},
             "submit": {"type": "plain_text", "text": "예약하기"},
             "blocks": [
+                modal_form.plain_text_block(
+                    text="예약 목적",
+                    placeholder_text="비워도 좋습니다.(default : 팀 회의) ",
+                    block_name="reservation_title",
+                    is_multiline=False,
+                    optional=True,
+                ),
+                modal_form.plain_text_block(
+                    text="예약자",
+                    placeholder_text="팀명 혹은 이름",
+                    block_name="reservation_creator",
+                    is_multiline=False,
+                ),
                 modal_form.select_block(
                     placeholder_text="지니/어스",
                     element_option_list=["지니", "어스"],
@@ -72,6 +85,8 @@ def make_reservation(ack, body, client, view, logger):
     reservation_modal_values = view["state"]["values"]
     reservation_mapper = {
         "reservation_modal_values": view["state"]["values"],
+        "reservation_title": reservation_modal_values["reservation_title"]["plain_text_input-action"]["value"],
+        "reservation_creator": reservation_modal_values["reservation_creator"]["plain_text_input-action"]["value"],
         "reservation_room": reservation_modal_values["reservation_room"]["static_select-action"]["selected_option"][
             "text"
         ]["text"],
@@ -105,10 +120,16 @@ def make_reservation(ack, body, client, view, logger):
 
     if reservation_condition:
         # notion insert
+
+        reservation_title = reservation_mapper.get("reservation_title")
+        if reservation_title is None:
+            reservation_title = "팀 회의"
+
         create_reservation(
             database_name="reservation",
             room=reservation_mapper["reservation_room"],
-            title="팀 회의 등록",
+            title=reservation_title,
+            creator=reservation_mapper["reservation_creator"],
             purpose=reservation_mapper["reservation_purpose"],
             start=f"{reservation_mapper['reservation_date']}T{reservation_mapper['reservation_start_time']}:00",
             end=f"{reservation_mapper['reservation_date']}T{reservation_mapper['reservation_end_time']}:00",
