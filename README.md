@@ -5,11 +5,11 @@
 <details>
 <summary>Relationship Diagram v1</summary>
 
-![relationship diagram v1.png](./images/relationship diagram v1.png)  
+![relationship_diagram_v1](.github/relationship_diagram_v1.png)  
 </details>
 
 ### Relationship Diagram v2
-![relationship diagram v2.png](./images/relationship diagram v2.png) 
+![relationship_diagram_v2](.github/relationship_diagram_v2.png) 
 
 
 
