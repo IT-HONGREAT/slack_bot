@@ -9,7 +9,11 @@
 </details>
 
 ### Relationship Diagram v2
+
+This architecture is currently used now.
+SlackApp and FastApi are distributed by directory.
 ![relationship_diagram_v2](.github/relationship_diagram_v2.png) 
+
 
 
 
