@@ -26,7 +26,3 @@ MAIN_BOT = {
     "send_dm_schedule": f"{EMOJI_ALARM} 예약 메세지",
     "send_anonymous_board": f"{EMOJI_BAMBOO} 똑개 대나무숲",
 }
-
-
-ANONYMOUS_BOARD_CHANNEL = "C050C70HFHN"
-BOT_OWN_CHANNEL = "C04QK0W6072"

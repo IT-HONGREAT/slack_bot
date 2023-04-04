@@ -5,6 +5,9 @@ from slack_bolt import App
 
 from settings import PlatformSetting
 
+ANONYMOUS_BOARD_CHANNEL = "C050C70HFHN"
+BOT_OWN_CHANNEL = "C04QK0W6072"
+
 
 class Slack(PlatformSetting):
     def __init__(self, tokens: List[str]):

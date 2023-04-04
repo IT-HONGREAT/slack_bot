@@ -4,8 +4,7 @@ from logging import Logger
 from slack_bolt import BoltContext
 from slack_sdk import WebClient
 
-from bolt_python.app import bolt_app
-from bolt_python.contexts import ANONYMOUS_BOARD_CHANNEL
+from bolt_python.app import bolt_app, ANONYMOUS_BOARD_CHANNEL
 from bolt_python.forms import modal_form
 from bolt_python.utils import validate_reservation, get_random, datetime_to_timestamp, get_user_information
 from notion.actions import create_reservation, get_lunch

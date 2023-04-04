@@ -1,5 +1,5 @@
-from bolt_python.app import bolt_app, slack_setting
-from bolt_python.contexts import BOT_OWN_CHANNEL, GUIDE_BOT, MAIN_BOT
+from bolt_python.app import bolt_app, slack_setting, BOT_OWN_CHANNEL
+from bolt_python.contexts import GUIDE_BOT, MAIN_BOT
 
 
 @bolt_app.shortcut("call_guide_bot")
